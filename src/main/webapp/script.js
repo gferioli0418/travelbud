@@ -2,7 +2,7 @@
  * Adds a random location to the page.
  */
 function addRandomLocation() {
-  const locations =['Canada', 'Mexico', 'US'];
+  const locations = ['Canada', 'Mexico', 'US'];
 
   // Pick a random location.
   const location = locations[Math.floor(Math.random() * locations.length)];
