@@ -1,0 +1,37 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: npm install dependencies
+      run: npm install clang-format prettier css-validator html-validate
+    - name: Validate HTML
+      run: html-validate src/main/webapp/*.html
+    - name: Validate CSS
+      if: always()
+      run: css-validator src/main/webapp/*.css
+    - name: Maven compile
+      if: always()
+      run: mvn compile
+    - name: Check HTML Formatting
+      if: always()
+      run: prettier -c src/main/webapp/*.html
+    - name: Check CSS Formatting
+      if: always()
+      run: prettier -c src/main/webapp/*.css
+    - name: Check JavaScript Formatting
+      working-directory: src/main/webapp
+      if: always()
+      run: diff -u <(cat *.js) <(clang-format --style=Google *.js)
+    - name: Check Java Formatting
+      working-directory: src/main/java/com/google/sps/travelbud
+      if: always()
+      run: diff -u <(cat *.java) <(clang-format --style=Google *.java)
+    - name: Notify on failure
+      if: failure()
+      run: echo 'run "make validate" and "make pretty" to see/fix errors locally'
