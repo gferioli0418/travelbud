@@ -1,7 +1,7 @@
 /**
  * Adds a random location to the page.
  */
-function addRandomLocation() {
+function addRandomLocation() {  // eslint-disable-line no-unused-vars
   const locations = ['Canada', 'Mexico', 'US'];
 
   // Pick a random location.
