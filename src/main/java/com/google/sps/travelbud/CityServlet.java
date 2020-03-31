@@ -73,7 +73,7 @@ public class CityServlet extends HttpServlet {
       // adjust endpoint
       String ID = endpoint.substring(1, endpoint.length());
       int city_ID = Integer.parseInt(ID);
-      
+
       // search for each city element in the List
       for (City temp : cities) {
         int tempID = temp.id;
