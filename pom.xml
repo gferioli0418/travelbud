@@ -32,7 +32,7 @@
         <artifactId>appengine-maven-plugin</artifactId>
         <version>2.2.0</version>
         <configuration>
-          <projectId>sixtor-sps-spring20</projectId>
+          <projectId>sps-travelbud</projectId>
           <version>1</version>
         </configuration>
       </plugin>
