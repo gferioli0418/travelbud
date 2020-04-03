@@ -108,7 +108,7 @@ html {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  text-align: "center";
+  text-align: inherit;
 }
 
 /* Float four columns side by side */
@@ -122,7 +122,7 @@ body {
 .row {
   margin: 0 -5px;
   padding-left: 130px;
-  padding-right:130px;
+  padding-right: 130px;
 }
 
 /* Clear floats after the columns */
