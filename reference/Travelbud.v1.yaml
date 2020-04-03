@@ -55,8 +55,8 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Country'
-        description: a form with all the properties/values of the country.
-      description: This POST request adds entries to the backend.This is useful for wanting to add more countries to the entity “Country”.
+        description: A form with all the properties/values of the country.
+      description: This POST request adds entries to the backend. This is useful for wanting to add more countries to the entity “Country”.
   '/api/countries/{countryID}':
     parameters:
       - schema:
@@ -65,7 +65,7 @@ paths:
         in: path
         required: true
     get:
-      summary: GetCountry
+      summary: GETCountry
       tags:
         - Countries
       responses:
@@ -103,8 +103,8 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Country'
-        description: a form with all the properties/values of the Country.
-      description: This PUT request updates entries to the backend.This is useful for wanting to change a property of a specific country.
+        description: A form with all the properties/values of the Country.
+      description: This PUT request updates entries to the backend. This is useful for wanting to change a property of a specific country.
   /api/cities:
     get:
       summary: ListCities
@@ -152,7 +152,7 @@ paths:
               $ref: '#/components/schemas/City'
             examples: {}
         description: a form with all the properties/values of the city.
-      description: This POST request adds entries to the backend.This is useful for wanting to add more cities to the entity “City”.
+      description: This POST request adds entries to the backend. This is useful for wanting to add more cities to the entity “City”.
     parameters: []
   '/api/cities/{cityID}':
     parameters:
@@ -183,7 +183,7 @@ paths:
         '404':
           description: Not Found
       operationId: get-api-cities-cityID
-      description: 'This GET request returns an object array of all the entries in the entity “City”.This can be used for fetching data on a specific city (List of events, location, country, etc.).'
+      description: 'This GET request returns an object array of all the entries in the entity “City”. This can be used for fetching data on a specific city (List of events, location, country, etc.).'
       tags:
         - Cities
     put:
@@ -212,6 +212,7 @@ paths:
             application/json:
               schema:
                 type: array
+                uniqueItems: false
                 items:
                   $ref: '#/components/schemas/Event'
       operationId: get-api-events
@@ -284,16 +285,6 @@ components:
         languages:
           type: string
       x-examples:
-        Denmark:
-          id: 1
-          name: Denmark
-          cultureDos:
-            - Shake hands with women first
-            - Speak in a moderate tone
-            - Communicate very directly in any conversation
-          cultureDonts:
-            - Try not to attract attention
-          languages: Danish
         South Korea:
           id: 2
           name: South Korea
@@ -304,12 +295,37 @@ components:
           cultureDonts:
             - Do not use excessive or overt body language
           languages: Korean
+        Denmark:
+          id: 1
+          name: Denmark
+          cultureDos:
+            - Shake hands with women first
+            - Speak in a moderate tone
+            - Communicate very directly in any conversation
+          cultureDonts:
+            - Try not to attract attention
+          languages: Danish
       x-tags:
         - Countries
       description: ''
     City:
       title: City
       type: object
+      x-examples:
+        Busan:
+          id: 2
+          name: Busan
+          countryId: 2
+          description: Some cool Busan description
+          events: []
+        Copenhagen:
+          id: 1
+          name: Copenhagen
+          countryId: 1
+          description: Some cool Copenhagen description
+          events: []
+      x-tags:
+        - Cities
       properties:
         id:
           type: integer
@@ -317,35 +333,17 @@ components:
           type: string
         countryId:
           type: string
-        location:
-          type: string
         description:
           type: string
-        travelPrice:
-          type: number
         events:
           type: array
           items:
             $ref: '#/components/schemas/Event'
-      x-examples:
-        Copenhagen:
-          id: 1
-          name: Copenhagen
-          countryId: 1
-          description: Some cool Copenhagen description
-          location: some location
-          travelPrice: 54.4
-          events: []
-        Busan:
-          id: 2
-          name: Busan
-          countryId: 2
-          description: Some cool Busan description
-          location: some location
-          travelPrice: 52.4
-          events: []
-      x-tags:
-        - Cities
+      required:
+        - id
+        - name
+        - countryId
+      description: ''
     Event:
       title: Event
       type: object
@@ -364,14 +362,22 @@ components:
         description:
           type: string
       x-examples:
-        example-1:
-          id: 54
-          name: Event Name
-          cityId: 23
-          description: "annual St. Patrick's parade"
-          date: '2020-07-02 11:00:00 UCT'
-          location: some location
-          pricing: 13.44
+        Ecstatic Dance:
+          id: 1
+          name: Ecstatic Dance
+          cityId: 1
+          description: Some dancing description
+          date: '2020-04-04 16:45:00 UTC'
+          location: 's4 Æbeløgade, 2100 København, Denmark'
+          pricing: 22
+        Busan International Boat Show:
+          id: 2
+          name: Busan International Boat Show
+          cityId: 2
+          description: Some boat show description
+          date: '2020-05-21 03:00:00 UTC'
+          location: '84 Haeundaehaebyeon-ro, U-dong, Haeundae-gu, Busan, South Korea'
+          pricing: 0.5
       x-tags:
         - Events
   securitySchemes: {}
