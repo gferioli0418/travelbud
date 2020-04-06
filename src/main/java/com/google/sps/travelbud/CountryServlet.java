@@ -21,20 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// hard coded data
-class Country {
-  int id;
-  String name;
-  String CultureNorms;
-  String Languages;
-
-  Country(int id, String name, String CultureNorms, String Languages) {
-    this.id = id;
-    this.name = name;
-    this.CultureNorms = CultureNorms;
-    this.Languages = Languages;
-  }
-}
 /** Servlet that returns some example content. */
 @WebServlet(urlPatterns = {"/api/countries/*"})
 public class CountryServlet extends HttpServlet {
@@ -43,45 +29,37 @@ public class CountryServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    List<Country> Countries = new ArrayList<Country>();
-    Country c1 = new Country(1, "Denmark",
-        "Shake hands with women first, Speak in a moderate tone and try not to attract attention, Communicate very directly in any conversation",
-        "Danish");
-    Country c2 = new Country(2, "South Korea",
-        "Always bow to individuals when departing,Handshakes often accompany the bow among men, andDo not use excessive or overt body language",
-        "Korean");
-
-    Countries.add(c1);
-    Countries.add(c2);
-
+    List<Country> countries = Country.COUNTRIES;
     String endpoint = request.getPathInfo();
 
     Gson gson = new Gson();
 
     // return the list of countries
     if (endpoint == null) {
-      response.getWriter().println(gson.toJson(Countries));
+      response.getWriter().println(gson.toJson(countries));
 
     } else {
-      boolean found = false;
-
-      // adjust endpoint
-      String countryName = endpoint.substring(1, endpoint.length()).toLowerCase();
-
-      // search for each country element in the List
-      for (Country temp : Countries) {
-        String tempName = temp.name.toLowerCase();
-
-        if (tempName.equals(countryName)) {
-          // if found then output the JSON
-          found = true;
-          response.getWriter().println(gson.toJson(temp));
-        }
-      }
-      if (!found) {
+      Country country = getCountry(countries, endpoint);
+      if (country == null) {
         // if not found then output "not found"
-        response.getWriter().println("Country Not Found");
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "Country Not Found");
+      } else {
+        response.getWriter().println(gson.toJson(country));
       }
     }
+  }
+  public Country getCountry(List<Country> countries, String path) {
+    // adjust endpoint
+    String countryName = path.substring(1).toLowerCase();
+
+    // search for each country element in the List
+    for (Country tempCountry : countries) {
+      String tempCountryName = tempCountry.getName().toLowerCase();
+
+      if (tempCountryName.equals(countryName)) {
+        return tempCountry;
+      }
+    }
+    return null;
   }
 }

@@ -21,27 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// hard coded data
-class Event {
-  int ID;
-  String name;
-  int City_ID;
-  String time;
-  String location;
-  double price;
-  String description;
-
-  Event(int ID, String name, int City_ID, String time, String location, double price,
-      String description) {
-    this.ID = ID;
-    this.name = name;
-    this.City_ID = City_ID;
-    this.time = time;
-    this.location = location;
-    this.price = price;
-    this.description = description;
-  }
-}
 /** Servlet that returns some example content. */
 @WebServlet(urlPatterns = {"/api/events/*"})
 public class EventServlet extends HttpServlet {
@@ -51,15 +30,7 @@ public class EventServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     // add events
-    List<Event> events = new ArrayList<Event>();
-    Event e1 = new Event(1, "Ecstatic Dance", 1, "April 4th at 5:45 PM(Copenhagen time)",
-        "4 Æbeløgade, 2100 København, Denmark", 22.00, "Some cool dance description");
-    Event e2 = new Event(2, "Busan International Boat Show", 2, "May 21st at 10:00AM (Busan time)",
-        "84 Haeundaehaebyeon-ro, U-dong, Haeundae-gu, Busan, South Korea", 0.50,
-        "some cool boat description");
-
-    events.add(e1);
-    events.add(e2);
+    List<Event> events = Event.ALL_EVENTS;
 
     String endpoint = request.getPathInfo();
 
@@ -70,26 +41,26 @@ public class EventServlet extends HttpServlet {
       response.getWriter().println(gson.toJson(events));
 
     } else {
-      boolean found = false;
-
-      // adjust endpoint
-      String ID = endpoint.substring(1, endpoint.length());
-      int event_ID = Integer.parseInt(ID);
-
-      // search for each event element in the List
-      for (Event temp : events) {
-        int tempID = temp.ID;
-
-        if (event_ID == tempID) {
-          // if found then output the JSON
-          found = true;
-          response.getWriter().println(gson.toJson(temp));
-        }
-      }
-      if (!found) {
-        // if not found then output "not found"
-        response.getWriter().println("Event Not Found");
+      Event event = getEvent(events, endpoint);
+      if (event == null) {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "Event Not Found");
+      } else {
+        response.getWriter().println(gson.toJson(event));
       }
     }
+  }
+  public Event getEvent(List<Event> events, String path) {
+    // adjust endpoint
+    int eventId = Integer.parseInt(path.substring(1));
+
+    // search for each country element in the List
+    for (Event tempEvent : events) {
+      int tempEventId = tempEvent.getId();
+
+      if (tempEventId == eventId) {
+        return tempEvent;
+      }
+    }
+    return null;
   }
 }

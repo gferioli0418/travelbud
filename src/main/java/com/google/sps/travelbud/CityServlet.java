@@ -21,22 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// hard coded data
-class City {
-  int id;
-  String name;
-  int country_ID;
-  String description;
-  List<Integer> event_ID; // putting event id for now, but will use the event entity later
-
-  City(int id, String name, int country_ID, String description, List<Integer> event_ID) {
-    this.id = id;
-    this.name = name;
-    this.country_ID = country_ID;
-    this.description = description;
-    this.event_ID = event_ID;
-  }
-}
 /** Servlet that returns some example content. */
 @WebServlet(urlPatterns = {"/api/cities/*"})
 public class CityServlet extends HttpServlet {
@@ -45,49 +29,38 @@ public class CityServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    // set up events for each city
-    List<Integer> City1_events = new ArrayList<Integer>();
-    City1_events.add(1);
-
-    List<Integer> City2_events = new ArrayList<Integer>();
-    City2_events.add(2);
-
     // list of cities
-    List<City> cities = new ArrayList<City>();
-    City c1 = new City(1, "Copenhagen", 1, "Some cool copenhagen description", City1_events);
-    City c2 = new City(2, "Busan", 2, "Some cool Busan description", City2_events);
-
-    cities.add(c1);
-    cities.add(c2);
+    List<City> cities = City.CITIES;
 
     String endpoint = request.getPathInfo();
 
     Gson gson = new Gson();
-    // return the list of cities
+
     if (endpoint == null) {
+      // return the list of cities
       response.getWriter().println(gson.toJson(cities));
 
     } else {
-      boolean found = false;
-
-      // adjust endpoint
-      String ID = endpoint.substring(1, endpoint.length());
-      int city_ID = Integer.parseInt(ID);
-
-      // search for each city element in the List
-      for (City temp : cities) {
-        int tempID = temp.id;
-
-        if (city_ID == tempID) {
-          // if found then output the JSON
-          found = true;
-          response.getWriter().println(gson.toJson(temp));
-        }
-      }
-      if (!found) {
-        // if not found then output "not found"
-        response.getWriter().println("City Not Found");
+      City city = getCity(cities, endpoint);
+      if (city == null) {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "City Not Found");
+      } else {
+        response.getWriter().println(gson.toJson(city));
       }
     }
+  }
+  public City getCity(List<City> cities, String path) {
+    // adjust endpoint
+    int cityId = Integer.parseInt(path.substring(1));
+
+    // search for each country element in the List
+    for (City tempCity : cities) {
+      int tempCityId = tempCity.getId();
+
+      if (tempCityId == cityId) {
+        return tempCity;
+      }
+    }
+    return null;
   }
 }
