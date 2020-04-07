@@ -1,12 +1,76 @@
 <!DOCTYPE html>
-<meta charset="UTF-8" />
-<title>TravelBud</title>
-<link rel="stylesheet" href="style.css" />
-<script src="script.js"></script>
-<div id="content">
-  <h1>TravelBud</h1>
-  <p>This is TravelBud.</p>
-  <p>Click here to get a random location:</p>
-  <button type="button" onclick="addRandomLocation()">Button</button>
-  <div id="location-container"></div>
-</div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TravelBud</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <section class="header">
+      <div class="header-inner">
+        <h1 id="site-name">TravelBud</h1>
+        <br />
+        <h1>
+          Discover the world's hidden gems <br />
+          before planning your next trip.
+        </h1>
+        <input type="text" name="search" placeholder="Search a city, country, etc." />
+      </div>
+    </section>
+
+    <!-- Page content -->
+    <div class="content">
+      <!-- Featured Destinations Gallery -->
+      <h1>Featured Destinations</h1>
+      <br />
+      <div class="flex-container">
+        <div>
+          <img src="images/busan.jpg" alt="Avatar" />
+          <div class="container">
+            <h1>Busan</h1>
+            <h2>South Korea</h2>
+            <p>
+              Home to majestic mountains, glistening beaches, steaming hot springs and fantastic seafood, South Korea’s
+              second-largest city is a rollicking port town with tonnes to offer.
+            </p>
+            <button type="submit" class="button">EXPLORE</button>
+          </div>
+        </div>
+
+        <div>
+          <img src="images/kuching.jpg" alt="Avatar" />
+          <div class="container">
+            <h1>Kuching</h1>
+            <h2>Malaysia</h2>
+            <p>
+              Kuching is known for being the home of a number of indigenous groups such as the Iban and the Dayaks, and
+              people flock here to learn more about the unique culture found in this part of Malaysia.
+            </p>
+            <button type="submit" class="button">EXPLORE</button>
+          </div>
+        </div>
+
+        <div>
+          <img src="images/salvador.jpg" alt="Avatar" />
+          <div class="container">
+            <h1>Salvador</h1>
+            <h2>Brazil</h2>
+            <p>
+              Salvador, the capital of Brazil’s northeastern state of Bahia, is known for its Portuguese colonial
+              architecture, Afro-Brazilian culture and a tropical coastline.
+            </p>
+            <button type="submit" class="button">EXPLORE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer">
+      <p>Made during the 2020 Google Software Product Sprint.</p>
+    </section>
+  </body>
+</html>
