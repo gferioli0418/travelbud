@@ -69,7 +69,7 @@ Page Content
   letter-spacing: 0.01em;
   line-height: 1em;
   margin: 0px 0px 0.5em;
-  text-align: center; /* NEW */
+  text-align: center;
 }
 
 .button {
