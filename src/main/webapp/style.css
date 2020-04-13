@@ -1,17 +1,9 @@
 /*--------------
-Imported Fonts
----------------*/
-@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900');
-@import url('https://fonts.googleapis.com/css?family=Sriracha');
-
-/*--------------
 Site Name
 ---------------*/
 #site-name {
   color: #00bcd4;
-  font-family: 'Sriracha', Helvetica, Arial, sans-serif;
-  font-size: 40px;
-  font-weight: 400;
+  font: 400 40px 'Sriracha';
 }
 
 /*--------------
@@ -21,7 +13,7 @@ Header
   align-items: center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -33,9 +25,7 @@ Header
 }
 
 .header h1 {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-  font-size: 2.4em;
-  font-weight: 500;
+  font: 500 2.4em 'Montserrat';
   letter-spacing: 0.02em;
   line-height: 1.2em;
   margin: 0px 0px 0.5em;
@@ -60,8 +50,7 @@ Footer
 Body
 ---------------*/
 body {
-  font-weight: 300;
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+  font: 300 13px 'Montserrat';
   letter-spacing: 0.02em;
   line-height: 1.5em;
   margin: 0;
@@ -72,17 +61,15 @@ Page Content
 ---------------*/
 .content {
   margin: 100px auto 120px auto;
-  text-align: center;
   width: 77vw;
 }
 
-.content h1 {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-  font-size: 30px;
-  font-weight: 300;
+.content > h1 {
+  font: 300 30px 'Montserrat';
   letter-spacing: 0.01em;
   line-height: 1em;
   margin: 0px 0px 0.5em;
+  text-align: center; /* NEW */
 }
 
 .button {
@@ -91,13 +78,11 @@ Page Content
   color: white;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
+  font: 400 14px 'Montserrat';
   letter-spacing: 0.05em;
   line-height: 1.5em;
-  margin: 4px 2px;
-  padding: 10px 28px;
+  margin: 6px 2px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
 }
@@ -113,9 +98,7 @@ Search Bar
   background-color: white;
   border: none;
   box-sizing: border-box;
-  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 300;
+  font: 300 14px 'Montserrat';
   letter-spacing: 0.02em;
   margin-top: 15px;
   padding: 12px 20px 12px 20px;
@@ -146,24 +129,20 @@ Gallery
 }
 
 .container h1 {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-  font-size: 25px;
-  font-weight: 300;
+  font: 300 24px 'Montserrat';
   letter-spacing: 0.01em;
   line-height: 1em;
-  margin: 10px 0px 0px 0px;
+  margin: 15px 0px 0px 0px;
 }
 
 .container h2 {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 600;
+  font: 500 15px 'Montserrat';
   letter-spacing: 0.01em;
   line-height: 1em;
-  margin: 7px 0px 5px 0px;
+  margin: 9px 0px 5px 0px;
 }
 
 .container p {
-  font-size: 14px;
-  line-height: 1.4em;
+  font-size: 13px;
+  line-height: 1.5em;
 }
