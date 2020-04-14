@@ -146,3 +146,12 @@ Gallery
   font-size: 13px;
   line-height: 1.5em;
 }
+
+body,
+html {
+  height: 100%;
+}
+
+div {
+  margin: 0;
+}
