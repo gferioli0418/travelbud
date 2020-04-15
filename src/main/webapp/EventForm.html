@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<title>Event Form</title>
+<link rel="stylesheet" href="style.css" />
+<div id="content">
+  <div id="location-container"></div>
+  <form action="/api/events" method="POST">
+    <h1>Enter an Event</h1>
+    <p>ID:</p>
+    <textarea name="id" placeholder="1"></textarea>
+
+    <p>Name:</p>
+    <textarea name="name" placeholder="Busan International Boat Show"></textarea>
+
+    <p>City ID</p>
+    <textarea name="cityId" placeholder="1"></textarea>
+
+    <p>Description</p>
+    <textarea name="description" placeholder="cool description"></textarea>
+
+    <p>Date:</p>
+    <textarea name="date" placeholder="2020-05-21 03:00:00 UTC"></textarea>
+
+    <p>Location</p>
+    <textarea name="location" placeholder="84 Haeundaehaebyeon-ro, U-dong, Haeundae-gu, Busan, South Korea"></textarea>
+
+    <p>Pricing</p>
+    <textarea name="pricing" placeholder="0.50"></textarea>
+
+    <input type="submit" />
+  </form>
+</div>

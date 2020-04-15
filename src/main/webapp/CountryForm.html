@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<title>Event Form</title>
+<link rel="stylesheet" href="style.css" />
+<div id="content">
+  <div id="location-container"></div>
+  <form action="/api/countries" method="POST">
+    <h1>Enter a Country</h1>
+    <p>ID:</p>
+    <textarea name="id" placeholder="1"></textarea>
+
+    <p>Name:</p>
+    <textarea name="name" placeholder="South Korea"></textarea>
+
+    <p>Culture Do's(seperate with ,):</p>
+    <textarea name="cultureDos" placeholder="A,B,C"></textarea>
+
+    <p>Culture Dont's(seperate with ,):</p>
+    <textarea name="cultureDonts" placeholder="Statement 1,Statment 2,Statement3"></textarea>
+
+    <p>Language</p>
+    <textarea name="language" placeholder="cool country description"></textarea>
+
+    <input type="submit" />
+  </form>
+</div>
