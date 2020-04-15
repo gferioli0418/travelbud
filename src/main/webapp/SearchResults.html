@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styleNzinga.css" />
+    <script src="scriptNzinga.js"></script>
+    <title>TravelBud</title>
+  </head>
+
+  <body>
+    <div class="topnav">
+      <a class="active" href="#home">TRAVELBUD</a>
+      <a href="#Explore">Explore destinations</a>
+      <a href="#Learn">Learn About Cultures</a>
+      <a href="#About Us">About Us</a>
+      <input type="text" id="searchBar" onkeyup="searching()" name="searchBar" placeholder="Search.." />
+    </div>
+
+    <div class="hero-image">
+      <div class="hero-text">
+        <h2>Search result for</h2>
+        <h1 id="Heading"></h1>
+      </div>
+    </div>
+
+    <h2 >Cities to Explore</h2>
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <h1 id="city1" text-align="left"></h1>
+          <img src="krPhotos/krCitySeoul.jpg" height="300" alt="South Korea city " width=" 100%;" />
+          <p id="cityDesc1" class="title">
+            <!-- Seoul, the capital of South Korea, is a huge metropolis where modern skyscrapers, high-tech subways and pop
+            culture meet Buddhist temples, palaces and street markets. -->
+          </p>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h1 id="city2" text-align="left"></h1>
+          <img src="krPhotos/krCityBusan.png" height="300" alt="South Korea city " width=" 100%;"/>
+          <p id="cityDesc2" class="title">
+          </p>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h1 id="city3" text-align="left"></h1>
+          <img src="krPhotos/krCityJeju-do.jpg" height="300" alt="South Korea city " width="100%;" />
+          <p id="cityDesc3" class="title">
+          </p>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <h2 >Featured Events</h2>
+
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <h2 id="event1" text-align="left">International Boat Show</h2>
+          <div class="container">
+            <img src="krPhotos/krEvent1.jpg" alt="Avatar" class="image" />
+            <div class="overlay">
+              <p class="eventInfo">
+                Location: Busan<br />
+                Date: 4/16/2020
+              </p>
+              <p class="event">
+                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
+                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
+              </p>
+            </div>
+          </div>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2 text-align="left">BTS at Olympic Stadium</h2>
+          <div class="container">
+            <img src="krPhotos/krEventBTS.jpg" alt="Avatar" class="image" />
+            <div class="overlay">
+              <p class="eventInfo">
+                Location: Seoul<br />
+                Date: 4/11/2020
+              </p>
+              <p class="event">
+                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
+                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
+              </p>
+            </div>
+          </div>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2 text-align="left">Boryeong Mud Festival 2020</h2>
+          <div class="container">
+            <img src="krPhotos/KrEventMud.jpg" alt="Avatar" class="image" />
+            <div class="overlay">
+              <p class="eventInfo">
+                Location: Boryeong<br />
+                Date: 7/17/2020
+              </p>
+              <p class="event">
+                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
+                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
+              </p>
+            </div>
+          </div>
+          <p><button type="button">Explore</button></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <a>Made during the 2020 Google Software Product Sprint.</a>
+    </div>
+  </body>
+</html>
