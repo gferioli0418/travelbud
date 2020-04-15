@@ -13,6 +13,12 @@
 // limitations under the License.
 
 package com.google.sps.travelbud;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
@@ -25,21 +31,24 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/api/countries/*"})
 public class CountryServlet extends HttpServlet {
   @Override
-
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    List<Country> countries = Country.COUNTRIES;
     String endpoint = request.getPathInfo();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
 
     // return the list of countries
     if (endpoint == null) {
+      List<Country> countries = Country.getAll(datastore);
       response.getWriter().println(gson.toJson(countries));
 
     } else {
-      Country country = getCountry(countries, endpoint);
+      // adjust endpoint
+      long countryId = Long.parseLong(endpoint.substring(1));
+      Country country = Country.getCountry(datastore, countryId);
       if (country == null) {
         // if not found then output "not found"
         response.sendError(HttpServletResponse.SC_NOT_FOUND, "Country Not Found");
@@ -48,18 +57,31 @@ public class CountryServlet extends HttpServlet {
       }
     }
   }
-  public Country getCountry(List<Country> countries, String path) {
-    // adjust endpoint
-    String countryName = path.substring(1).toLowerCase();
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    long id = Long.parseLong(getParameter(request, "id", ""));
+    String name = getParameter(request, "name", "");
+    List<String> cultureDos = Arrays.asList(getParameter(request, "cultureDos", "").split(",", -1));
+    List<String> cultureDonts =
+        Arrays.asList(getParameter(request, "cultureDonts", "").split(",", -1));
+    String language = getParameter(request, "language", "");
 
-    // search for each country element in the List
-    for (Country tempCountry : countries) {
-      String tempCountryName = tempCountry.getName().toLowerCase();
+    Entity countryEntity = new Entity("Country", id);
+    countryEntity.setProperty("name", name);
+    countryEntity.setProperty("cultureDos", cultureDos);
+    countryEntity.setProperty("cultureDonts", cultureDonts);
+    countryEntity.setProperty("language", language);
 
-      if (tempCountryName.equals(countryName)) {
-        return tempCountry;
-      }
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(countryEntity);
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
     }
-    return null;
+    return value;
   }
 }
