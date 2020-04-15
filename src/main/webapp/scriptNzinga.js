@@ -58,7 +58,8 @@ function malaysia() {
   const cityDesc3Container = document.getElementById('cityDesc3');
   cityDesc3Container.innerText = 'Jeju province encompasses the South' +
       ' Korean island of Jeju in the Korea Strait. Its known for its' +
-      ' beachresorts and volcanic landscape of craters and cavelike lava tubes.';
+      ' beachresorts and volcanic landscape of craters and cavelike' +
+      ' lava tubes.';
 }
 
 /**
@@ -90,8 +91,8 @@ function brazil() {
 
   const cityDesc3Container = document.getElementById('cityDesc3');
   cityDesc3Container.innerText = 'São Paulo, Brazil’s vibrant financial' +
-      ' center, is among the worlds most populous cities, with numerous cultural' +
-      ' institutions and a rich architectural tradition.';
+      ' center, is among the worlds most populous cities, with numerous' +
+      ' cultural institutions and a rich architectural tradition.';
 }
 
 /**
