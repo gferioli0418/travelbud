@@ -7,6 +7,75 @@ Site Name
 }
 
 /*--------------
+Navigation Bar
+---------------*/
+.topnav {
+  background-color: #ffffff;
+  height: 45px;
+  overflow: hidden;
+  padding: 11px 100px;
+}
+
+.topnav #site-name {
+  color: #00bcd4;
+  display: block;
+  float: left;
+  font: 400 28px 'Sriracha';
+  letter-spacing: 0.02em;
+  line-height: 1.5em;
+  padding: 3px 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.topnav > a {
+  flex: 0.23;
+}
+
+.topnav a {
+  color: #5a5a5a;
+  display: block;
+  float: left;
+  font: 300 14px 'Montserrat';
+  letter-spacing: 0.02em;
+  line-height: 1.5em;
+  padding: 14px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.topnav a:hover {
+  color: #a8a8a8;
+}
+
+.topnav a.active {
+  color: #a8a8a8;
+}
+
+.topnav .search-container {
+  float: right;
+}
+
+.topnav input[type='text'] {
+  background-color: #ededed;
+  border: none;
+  font: 300 13px 'Montserrat';
+  letter-spacing: 0.02em;
+  margin: 5px 0px 0px 30px;
+  padding: 10px;
+  width: 23vw;
+}
+
+/*--------------
+Site Name
+---------------*/
+#site-name {
+  color: #00bcd4;
+  font: 400 40px 'Sriracha';
+}
+
+/*--------------
 Header
 ---------------*/
 .header {
@@ -18,7 +87,7 @@ Header
   background-size: cover;
   color: white;
   display: flex;
-  height: 58vh;
+  height: 38vh;
   justify-content: center;
   text-align: center;
   width: 100vw;
@@ -28,6 +97,13 @@ Header
   font: 500 2.4em 'Montserrat';
   letter-spacing: 0.02em;
   line-height: 1.2em;
+  margin: 0px 0px 0.5em;
+}
+
+.header h2 {
+  font: 300 20px 'Montserrat';
+  letter-spacing: 0.01em;
+  line-height: 1em;
   margin: 0px 0px 0.5em;
 }
 
@@ -69,7 +145,6 @@ Page Content
   letter-spacing: 0.01em;
   line-height: 1em;
   margin: 0px 0px 0.5em;
-  text-align: center;
 }
 
 .button {
@@ -92,25 +167,11 @@ Page Content
 }
 
 /*--------------
-Search Bar
----------------*/
-.header-inner input[type='text'] {
-  background-color: white;
-  border: none;
-  box-sizing: border-box;
-  font: 300 14px 'Montserrat';
-  letter-spacing: 0.02em;
-  margin-top: 15px;
-  padding: 12px 20px 12px 20px;
-  width: 50%;
-}
-
-/*--------------
 Gallery
 ---------------*/
 .flex-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -145,13 +206,4 @@ Gallery
 .container p {
   font-size: 13px;
   line-height: 1.5em;
-}
-
-body,
-html {
-  height: 100%;
-}
-
-div {
-  margin: 0;
 }

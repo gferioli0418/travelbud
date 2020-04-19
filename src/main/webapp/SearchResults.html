@@ -1,129 +1,60 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styleNzinga.css" />
-    <script src="scriptNzinga.js"></script>
-    <title>TravelBud</title>
+    <title>TravelBud: Search</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="SearchResults.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sriracha" />
   </head>
 
   <body>
+    <!-- Navbar -->
     <div class="topnav">
-      <a class="active" href="#home">TRAVELBUD</a>
-      <a href="#Explore">Explore destinations</a>
-      <a href="#Learn">Learn About Cultures</a>
-      <a href="#About Us">About Us</a>
-      <input type="text" id="searchBar" onkeyup="searching()" name="searchBar" placeholder="Search.." />
+      <a href="#" id="site-name">TravelBud</a>
+      <a href="#">Destinations</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <div class="search-container">
+        <input type="text" placeholder="Search a city, country, etc." name="search" />
+      </div>
     </div>
 
-    <div class="hero-image">
-      <div class="hero-text">
-        <h2>Search result for</h2>
+    <!-- Header -->
+    <section class="header">
+      <div class="header-inner">
+        <h2>Search results for</h2>
         <h1 id="Heading">Heading</h1>
       </div>
+    </section>
+
+    <!-- Page content -->
+    <div class="content">
+      <!-- Gallery -->
+      <div class="flex-container" id="flex-container"></div>
+
+      <br /><br /><br />
+
+      <!-- Text and Buttons -->
+      <h1>This is a heading.</h1>
+      <h2>This is a sub-heading.</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magn aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+      <button type="submit" class="button">BUTTON</button>
     </div>
 
-    <h2>Cities to Explore</h2>
-    <div class="row">
-      <div class="column">
-        <div class="card">
-          <h1 id="city1" text-align="left">city</h1>
-          <img src="krPhotos/krCitySeoul.jpg" height="300" alt="South Korea city " width=" 100%;" />
-          <p id="cityDesc1" class="title">
-            <!-- Seoul, the capital of South Korea, is a huge metropolis where modern skyscrapers, high-tech subways and pop
-            culture meet Buddhist temples, palaces and street markets. -->
-          </p>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="card">
-          <h1 id="city2" text-align="left">city</h1>
-          <img src="krPhotos/krCityBusan.png" height="300" alt="South Korea city " width=" 100%;" />
-          <p id="cityDesc2" class="title"></p>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="card">
-          <h1 id="city3" text-align="left">city</h1>
-          <img src="krPhotos/krCityJeju-do.jpg" height="300" alt="South Korea city " width="100%;" />
-          <p id="cityDesc3" class="title"></p>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-    </div>
-
-    <hr />
-
-    <h2>Featured Events</h2>
-
-    <div class="row">
-      <div class="column">
-        <div class="card">
-          <h2 id="event1" text-align="left">International Boat Show</h2>
-          <div class="container">
-            <img src="krPhotos/krEvent1.jpg" alt="Avatar" class="image" />
-            <div class="overlay">
-              <p class="eventInfo">
-                Location: Busan<br />
-                Date: 4/16/2020
-              </p>
-              <p class="event">
-                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
-                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
-              </p>
-            </div>
-          </div>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="card">
-          <h2 text-align="left">BTS at Olympic Stadium</h2>
-          <div class="container">
-            <img src="krPhotos/krEventBTS.jpg" alt="Avatar" class="image" />
-            <div class="overlay">
-              <p class="eventInfo">
-                Location: Seoul<br />
-                Date: 4/11/2020
-              </p>
-              <p class="event">
-                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
-                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
-              </p>
-            </div>
-          </div>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="card">
-          <h2 text-align="left">Boryeong Mud Festival 2020</h2>
-          <div class="container">
-            <img src="krPhotos/KrEventMud.jpg" alt="Avatar" class="image" />
-            <div class="overlay">
-              <p class="eventInfo">
-                Location: Boryeong<br />
-                Date: 7/17/2020
-              </p>
-              <p class="event">
-                Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event
-                Info! Event Info! Event Info! Event Info! Event Info! Event Info! Event Info!
-              </p>
-            </div>
-          </div>
-          <p><button type="button">Explore</button></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="navbar">
-      <a>Made during the 2020 Google Software Product Sprint.</a>
-    </div>
+    <!-- Footer -->
+    <section class="footer">
+      <p>Made during the 2020 Google Software Product Sprint.</p>
+    </section>
   </body>
 </html>
