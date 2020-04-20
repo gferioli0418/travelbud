@@ -34,8 +34,8 @@ public class CountryServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     String endpoint = request.getPathInfo();
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
 
@@ -65,6 +65,7 @@ public class CountryServlet extends HttpServlet {
     String language = getParameter(request, "language", "");
 
     Entity countryEntity = new Entity("Country");
+
     countryEntity.setProperty("name", name);
     countryEntity.setProperty("cultureDos", cultureDos);
     countryEntity.setProperty("cultureDonts", cultureDonts);
@@ -78,6 +79,6 @@ public class CountryServlet extends HttpServlet {
     if (value == null) {
       return defaultValue;
     }
-    return null;
+    return value;
   }
 }

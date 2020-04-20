@@ -29,7 +29,6 @@ public class Event {
     this.location = location;
     this.pricing = pricing;
   }
-
   Event(Entity entity) {
     this.id = (long) entity.getKey().getId();
     this.name = (String) entity.getProperty("name");
@@ -56,7 +55,6 @@ public class Event {
     }
     return events;
   }
-
   public static List<Event> getAll(DatastoreService datastore) {
     List<Event> events = new ArrayList<>();
     Query query = new Query("Event");

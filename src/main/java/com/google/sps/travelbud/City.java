@@ -64,7 +64,6 @@ public class City {
   public static City getCity(DatastoreService datastore, long id) {
     // first search for events with cityID
     List<Event> cityEvents = Event.getEventsInCity(datastore, id);
-
     Key key = KeyFactory.createKey("City", id);
     try {
       Entity entity = datastore.get(key);

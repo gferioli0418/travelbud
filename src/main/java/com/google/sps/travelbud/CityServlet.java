@@ -33,8 +33,9 @@ public class CityServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     String endpoint = request.getPathInfo();
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
 
@@ -57,6 +58,7 @@ public class CityServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+
     String name = getParameter(request, "name", "");
     long countryId = Long.parseLong(getParameter(request, "countryId", ""));
     String description = getParameter(request, "description", "");
@@ -75,6 +77,6 @@ public class CityServlet extends HttpServlet {
     if (value == null) {
       return defaultValue;
     }
-    return null;
+    return value;
   }
 }

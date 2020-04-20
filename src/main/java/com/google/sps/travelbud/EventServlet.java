@@ -34,14 +34,13 @@ public class EventServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     String endpoint = request.getPathInfo();
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
 
     // return the list of events
-    if (endpoint == null) {
+    if (endpoint == null || endpoint == "/") {
       List<Event> events = Event.getAll(datastore);
       response.getWriter().println(gson.toJson(events));
 
@@ -59,6 +58,7 @@ public class EventServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+
     String name = getParameter(request, "name", "");
     long cityId = Long.parseLong(getParameter(request, "id", ""));
     String description = getParameter(request, "description", "");
@@ -83,6 +83,6 @@ public class EventServlet extends HttpServlet {
     if (value == null) {
       return defaultValue;
     }
-    return null;
+    return value;
   }
 }
