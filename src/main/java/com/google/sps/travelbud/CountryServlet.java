@@ -35,7 +35,6 @@ public class CountryServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
@@ -46,7 +45,6 @@ public class CountryServlet extends HttpServlet {
       response.getWriter().println(gson.toJson(countries));
 
     } else {
-      // adjust endpoint
       long countryId = Long.parseLong(endpoint.substring(1));
       Country country = Country.getCountry(datastore, countryId);
       if (country == null) {
@@ -57,17 +55,17 @@ public class CountryServlet extends HttpServlet {
       }
     }
   }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    long id = Long.parseLong(getParameter(request, "id", ""));
     String name = getParameter(request, "name", "");
-    List<String> cultureDos = Arrays.asList(getParameter(request, "cultureDos", "").split(",", -1));
-    List<String> cultureDonts =
-        Arrays.asList(getParameter(request, "cultureDonts", "").split(",", -1));
+    List<String> cultureDos = Arrays.asList(request.getParameterValues("cultureDos"));
+    List<String> cultureDonts = Arrays.asList(request.getParameterValues("cultureDonts"));
     String language = getParameter(request, "language", "");
 
-    Entity countryEntity = new Entity("Country", id);
+    Entity countryEntity = new Entity("Country");
+
     countryEntity.setProperty("name", name);
     countryEntity.setProperty("cultureDos", cultureDos);
     countryEntity.setProperty("cultureDonts", cultureDonts);

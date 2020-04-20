@@ -1,3 +1,4 @@
+
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +36,6 @@ public class CityServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
@@ -46,7 +46,6 @@ public class CityServlet extends HttpServlet {
       response.getWriter().println(gson.toJson(cities));
 
     } else {
-      // adjust endpoint
       long cityId = Long.parseLong(endpoint.substring(1));
       City city = City.getCity(datastore, cityId);
       if (city == null) {
@@ -60,12 +59,12 @@ public class CityServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    long id = Long.parseLong(getParameter(request, "id", ""));
+
     String name = getParameter(request, "name", "");
     long countryId = Long.parseLong(getParameter(request, "countryId", ""));
     String description = getParameter(request, "description", "");
 
-    Entity cityEntity = new Entity("City", id);
+    Entity cityEntity = new Entity("City");
     cityEntity.setProperty("name", name);
     cityEntity.setProperty("countryId", countryId);
     cityEntity.setProperty("description", description);

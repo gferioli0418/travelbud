@@ -1,3 +1,5 @@
+
+
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +19,8 @@ package com.google.sps.travelbud;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
@@ -33,10 +37,9 @@ public class EventServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     // return the list of events
     if (endpoint == null || endpoint == "/") {
@@ -57,7 +60,7 @@ public class EventServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    long id = Long.parseLong(getParameter(request, "id", ""));
+
     String name = getParameter(request, "name", "");
     long cityId = Long.parseLong(getParameter(request, "id", ""));
     String description = getParameter(request, "description", "");
@@ -65,7 +68,7 @@ public class EventServlet extends HttpServlet {
     String location = getParameter(request, "location", "");
     double pricing = Double.parseDouble(getParameter(request, "pricing", ""));
 
-    Entity eventEntity = new Entity("Event", id);
+    Entity eventEntity = new Entity("Event");
     eventEntity.setProperty("name", name);
     eventEntity.setProperty("cityId", cityId);
     eventEntity.setProperty("description", description);

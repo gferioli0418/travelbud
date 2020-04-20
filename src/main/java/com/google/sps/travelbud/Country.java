@@ -1,8 +1,10 @@
+
 package com.google.sps.travelbud;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -25,37 +27,35 @@ public class Country {
     this.languages = languages;
   }
 
+  Country(Entity entity) {
+    this.id = (long) entity.getKey().getId();
+    this.name = (String) entity.getProperty("name");
+    this.cultureDos = (List<String>) (entity.getProperty("cultureDos"));
+    this.cultureDonts = (List<String>) (entity.getProperty("cultureDonts"));
+    this.languages = (String) entity.getProperty("languages");
+  }
+
   public static List<Country> getAll(DatastoreService datastore) {
     List<Country> countries = new ArrayList<>();
-    Query queryCountry = new Query("country");
+    Query queryCountry = new Query("Country");
     PreparedQuery countriesQuery = datastore.prepare(queryCountry);
     // iterate through each of the countries and add it to the list
     for (Entity entity : countriesQuery.asIterable()) {
-      Country c = new Country((long) entity.getProperty("id"), (String) entity.getKey().getName(),
-          (List<String>) (entity.getProperty("cultureDos")),
-          (List<String>) (entity.getProperty("cultureDonts")),
-          (String) entity.getProperty("languages"));
+      Country c = new Country(entity);
       countries.add(c);
     }
     return countries;
   }
 
   public static Country getCountry(DatastoreService datastore, long countryId) {
-    Query queryCountry = new Query("Country");
-    PreparedQuery countries = datastore.prepare(queryCountry);
-    // iterate through the country entity
-    for (Entity entity : countries.asIterable()) {
-      long entityId = (long) entity.getKey().getId();
-      // only add the country with the correct countryId
-      if (entityId == countryId) {
-        Country c = new Country(entityId, (String) entity.getProperty("name"),
-            (List<String>) entity.getProperty("cultureDos"),
-            (List<String>) entity.getProperty("cultureDonts"),
-            (String) entity.getProperty("languages"));
-        return c;
-      }
+    Key key = KeyFactory.createKey("Country", countryId);
+    try {
+      Entity entity = datastore.get(key);
+      Country c = new Country(entity);
+      return c;
+    } catch (EntityNotFoundException e) {
+      return null;
     }
-    return null;
   }
 
   long getId() {

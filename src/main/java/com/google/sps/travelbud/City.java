@@ -3,6 +3,9 @@ package com.google.sps.travelbud;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import java.util.*;
@@ -22,6 +25,14 @@ public class City {
     this.events = events;
   }
 
+  City(Entity entity, List<Event> events) {
+    this.id = (long) entity.getKey().getId();
+    this.name = (String) entity.getProperty("name");
+    this.countryId = (long) entity.getProperty("countryId");
+    this.description = (String) entity.getProperty("description");
+    this.events = events;
+  }
+
   public static List<City> getAll(DatastoreService datastore) {
     HashMap<Long, List<Event>> cityEvents = new HashMap<>();
     Query queryEvent = new Query("Event");
@@ -30,10 +41,7 @@ public class City {
     // iterate through each event entity
     for (Entity entity : events.asIterable()) {
       long cityId = (long) entity.getProperty("cityId");
-      Event e = new Event((long) entity.getKey().getId(), (String) entity.getProperty("name"),
-          (long) entity.getProperty("cityId"), (String) entity.getProperty("description"),
-          (String) entity.getProperty("date"), (String) entity.getProperty("location"),
-          (double) entity.getProperty("pricing"));
+      Event e = new Event(entity);
       // add the event to the list with the corresponding key cityId;
       if (cityEvents.get(cityId) == null) {
         cityEvents.put(cityId, new ArrayList<Event>());
@@ -47,9 +55,7 @@ public class City {
     // iterate throuch each city entity and add it to the list;
     for (Entity entity : citiesQuery.asIterable()) {
       long entityId = (long) entity.getKey().getId();
-      City c = new City(entityId, (String) entity.getProperty("name"),
-          (long) entity.getProperty("countryId"), (String) entity.getProperty("description"),
-          cityEvents.get(entityId));
+      City c = new City(entity, cityEvents.get(entityId));
       cities.add(c);
     }
     return cities;
@@ -58,21 +64,14 @@ public class City {
   public static City getCity(DatastoreService datastore, long id) {
     // first search for events with cityID
     List<Event> cityEvents = Event.getEventsInCity(datastore, id);
-
-    Query queryCity = new Query("City");
-    PreparedQuery cities = datastore.prepare(queryCity);
-    // iterate through each city event
-    for (Entity entity : cities.asIterable()) {
-      long entityId = (long) entity.getKey().getId();
-      // only return the city with the right id
-      if (entityId == id) {
-        City c = new City(entityId, (String) entity.getProperty("name"),
-            (long) entity.getProperty("countryId"), (String) entity.getProperty("description"),
-            cityEvents);
-        return c;
-      }
+    Key key = KeyFactory.createKey("City", id);
+    try {
+      Entity entity = datastore.get(key);
+      City c = new City(entity, cityEvents);
+      return c;
+    } catch (EntityNotFoundException e) {
+      return null;
     }
-    return null;
   }
 
   long getId() {
