@@ -13,6 +13,12 @@
 // limitations under the License.
 
 package com.google.sps.travelbud;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
@@ -25,12 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/api/events/*"})
 public class EventServlet extends HttpServlet {
   @Override
-
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    // add events
-    List<Event> events = Event.ALL_EVENTS;
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     String endpoint = request.getPathInfo();
 
@@ -38,10 +42,12 @@ public class EventServlet extends HttpServlet {
 
     // return the list of events
     if (endpoint == null) {
+      List<Event> events = Event.getAll(datastore);
       response.getWriter().println(gson.toJson(events));
 
     } else {
-      Event event = getEvent(events, endpoint);
+      long eventId = Long.parseLong(endpoint.substring(1));
+      Event event = Event.getEvent(datastore, eventId);
       if (event == null) {
         response.sendError(HttpServletResponse.SC_NOT_FOUND, "Event Not Found");
       } else {
@@ -49,17 +55,33 @@ public class EventServlet extends HttpServlet {
       }
     }
   }
-  public Event getEvent(List<Event> events, String path) {
-    // adjust endpoint
-    int eventId = Integer.parseInt(path.substring(1));
 
-    // search for each country element in the List
-    for (Event tempEvent : events) {
-      int tempEventId = tempEvent.getId();
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String name = getParameter(request, "name", "");
+    long cityId = Long.parseLong(getParameter(request, "id", ""));
+    String description = getParameter(request, "description", "");
+    String date = getParameter(request, "date", "");
+    String location = getParameter(request, "location", "");
+    double pricing = Double.parseDouble(getParameter(request, "pricing", ""));
 
-      if (tempEventId == eventId) {
-        return tempEvent;
-      }
+    Entity eventEntity = new Entity("Event");
+    eventEntity.setProperty("name", name);
+    eventEntity.setProperty("cityId", cityId);
+    eventEntity.setProperty("description", description);
+    eventEntity.setProperty("date", date);
+    eventEntity.setProperty("location", location);
+    eventEntity.setProperty("pricing", pricing);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(eventEntity);
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
     }
     return null;
   }
