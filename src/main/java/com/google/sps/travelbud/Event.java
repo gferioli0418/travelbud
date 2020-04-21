@@ -1,4 +1,3 @@
-
 package com.google.sps.travelbud;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -30,6 +29,7 @@ public class Event {
     this.location = location;
     this.pricing = pricing;
   }
+
   Event(Entity entity) {
     this.id = (long) entity.getKey().getId();
     this.name = (String) entity.getProperty("name");
@@ -39,6 +39,7 @@ public class Event {
     this.location = (String) entity.getProperty("location");
     this.pricing = (double) entity.getProperty("pricing");
   }
+  
   public static List<Event> getEventsInCity(DatastoreService datastore, long cityId) {
     List<Event> events = new ArrayList<>();
     Query query = new Query("Event");
