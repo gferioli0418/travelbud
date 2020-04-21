@@ -62,7 +62,7 @@ public class CityServlet extends HttpServlet {
     String name = getParameter(request, "name", "");
     long countryId = Long.parseLong(getParameter(request, "countryId", ""));
     String description = getParameter(request, "description", "");
-    
+
     Entity cityEntity = new Entity("City");
     cityEntity.setProperty("name", name);
     cityEntity.setProperty("countryId", countryId);
