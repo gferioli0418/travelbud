@@ -58,6 +58,19 @@ public class Country {
     }
   }
 
+  public static List<Country> filter(DatastoreService datastore, String name) {
+    List<Country> filteredCountries = new ArrayList<>();
+    List<Country> countries = Country.getAll(datastore);
+    for (Country C : countries) {
+      String nameOfC = C.getName().toLowerCase();
+      String substr = nameOfC.substring(0, name.length());
+      if (nameOfC.length() >= name.length() && substr.equals(name.toLowerCase())) {
+        filteredCountries.add(C);
+      }
+    }
+    return filteredCountries;
+  }
+
   long getId() {
     return id;
   }

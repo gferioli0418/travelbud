@@ -36,11 +36,23 @@ public class CityServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
+    String cityName = request.getParameter("name");
+    String id = request.getParameter("countryId");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-
-    if (endpoint == null) {
+    if (id != null && cityName != null) {
+      Long countryId = Long.parseLong(id);
+      List<City> filteredCities = City.filter(datastore, cityName, countryId);
+      response.getWriter().println(gson.toJson(filteredCities));
+    } else if (id != null) {
+      Long countryId = Long.parseLong(id);
+      List<City> filteredCities = City.filterId(datastore, countryId);
+      response.getWriter().println(gson.toJson(filteredCities));
+    } else if (cityName != null) {
+      List<City> filteredCities = City.filterName(datastore, cityName);
+      response.getWriter().println(gson.toJson(filteredCities));
+    } else if (endpoint == null) {
       // return the list of cities
       List<City> cities = City.getAll(datastore);
       response.getWriter().println(gson.toJson(cities));

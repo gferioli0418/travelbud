@@ -35,12 +35,15 @@ public class EventServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
+    String eventName = request.getParameter("name");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
 
-    // return the list of events
-    if (endpoint == null || endpoint == "/") {
+    if (eventName != null) {
+      List<Event> filteredEvents = Event.filter(datastore, eventName);
+      response.getWriter().println(gson.toJson(filteredEvents));
+    } else if (endpoint == null) {
       List<Event> events = Event.getAll(datastore);
       response.getWriter().println(gson.toJson(events));
 

@@ -74,6 +74,46 @@ public class City {
     }
   }
 
+  public static List<City> filterName(DatastoreService datastore, String name) {
+    List<City> filteredCities = new ArrayList<>();
+    List<City> cities = City.getAll(datastore);
+    for (City C : cities) {
+      String nameOfC = C.getName().toLowerCase();
+      String substr = nameOfC.substring(0, name.length());
+      if (nameOfC.length() >= name.length() && substr.equals(name.toLowerCase())) {
+        filteredCities.add(C);
+      }
+    }
+    return filteredCities;
+  }
+
+  public static List<City> filterId(DatastoreService datastore, long countryId) {
+    List<City> filteredCities = new ArrayList<>();
+    List<City> cities = City.getAll(datastore);
+    for (City C : cities) {
+      long countryIdOfC = C.getCountryId();
+      if (countryIdOfC == countryId) {
+        filteredCities.add(C);
+      }
+    }
+    return filteredCities;
+  }
+
+  public static List<City> filter(DatastoreService datastore, String name, long countryId) {
+    List<City> filteredCities = new ArrayList<>();
+    List<City> cities = City.getAll(datastore);
+    for (City C : cities) {
+      String nameOfC = C.getName().toLowerCase();
+      String substr = nameOfC.substring(0, name.length());
+      long countryIdOfC = C.getCountryId();
+      if (countryIdOfC == countryId && nameOfC.length() >= name.length()
+          && substr.equals(name.toLowerCase())) {
+        filteredCities.add(C);
+      }
+    }
+    return filteredCities;
+  }
+
   long getId() {
     return id;
   }

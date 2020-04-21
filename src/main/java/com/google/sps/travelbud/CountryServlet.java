@@ -35,12 +35,14 @@ public class CountryServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
+    String countryName = request.getParameter("name");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-
-    // return the list of countries
-    if (endpoint == null) {
+    if (countryName != null) {
+      List<Country> filteredCountries = Country.filter(datastore, countryName);
+      response.getWriter().println(gson.toJson(filteredCountries));
+    } else if (endpoint == null) {
       List<Country> countries = Country.getAll(datastore);
       response.getWriter().println(gson.toJson(countries));
 

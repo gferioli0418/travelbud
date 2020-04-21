@@ -39,7 +39,7 @@ public class Event {
     this.location = (String) entity.getProperty("location");
     this.pricing = (double) entity.getProperty("pricing");
   }
-  
+
   public static List<Event> getEventsInCity(DatastoreService datastore, long cityId) {
     List<Event> events = new ArrayList<>();
     Query query = new Query("Event");
@@ -77,6 +77,19 @@ public class Event {
     } catch (EntityNotFoundException e) {
       return null;
     }
+  }
+
+  public static List<Event> filter(DatastoreService datastore, String name) {
+    List<Event> filteredEvents = new ArrayList<>();
+    List<Event> events = Event.getAll(datastore);
+    for (Event E : events) {
+      String nameOfE = E.getName().toLowerCase();
+      String substr = nameOfE.substring(0, name.length());
+      if (nameOfE.length() >= name.length() && substr.equals(name.toLowerCase())) {
+        filteredEvents.add(E);
+      }
+    }
+    return filteredEvents;
   }
 
   long getId() {
