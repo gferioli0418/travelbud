@@ -59,11 +59,10 @@ public class CityServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-
     String name = getParameter(request, "name", "");
     long countryId = Long.parseLong(getParameter(request, "countryId", ""));
     String description = getParameter(request, "description", "");
-
+    
     Entity cityEntity = new Entity("City");
     cityEntity.setProperty("name", name);
     cityEntity.setProperty("countryId", countryId);

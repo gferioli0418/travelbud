@@ -39,7 +39,7 @@ public class Event {
     this.location = (String) entity.getProperty("location");
     this.pricing = (double) entity.getProperty("pricing");
   }
-  
+
   public static List<Event> getEventsInCity(DatastoreService datastore, long cityId) {
     List<Event> events = new ArrayList<>();
     Query query = new Query("Event");
