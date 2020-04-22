@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,11 +41,14 @@ public class EventServlet extends HttpServlet {
 
     Gson gson = new Gson();
 
-    if (eventName != null) {
-      List<Event> filteredEvents = Event.filter(datastore, eventName);
-      response.getWriter().println(gson.toJson(filteredEvents));
-    } else if (endpoint == null) {
-      List<Event> events = Event.getAll(datastore);
+    if (endpoint == null) {
+      List<Event> events =
+          Event.getAll(datastore)
+              .stream()
+              .filter(e
+                  -> eventName == null
+                      || e.getName().toLowerCase().contains(eventName.toLowerCase()))
+              .collect(Collectors.toList());
       response.getWriter().println(gson.toJson(events));
 
     } else {

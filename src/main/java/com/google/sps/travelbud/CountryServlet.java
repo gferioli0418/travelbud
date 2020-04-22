@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +40,15 @@ public class CountryServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-    if (countryName != null) {
-      List<Country> filteredCountries = Country.filter(datastore, countryName);
-      response.getWriter().println(gson.toJson(filteredCountries));
-    } else if (endpoint == null) {
-      List<Country> countries = Country.getAll(datastore);
+    if (endpoint == null) {
+      List<Country> countries =
+          Country.getAll(datastore)
+              .stream()
+              .filter(c
+                  -> countryName == null
+                      || c.getName().toLowerCase().contains(countryName.toLowerCase()))
+              .collect(Collectors.toList());
+
       response.getWriter().println(gson.toJson(countries));
 
     } else {

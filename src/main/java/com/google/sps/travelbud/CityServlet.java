@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,20 +42,16 @@ public class CityServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-    if (id != null && cityName != null) {
-      Long countryId = Long.parseLong(id);
-      List<City> filteredCities = City.filter(datastore, cityName, countryId);
-      response.getWriter().println(gson.toJson(filteredCities));
-    } else if (id != null) {
-      Long countryId = Long.parseLong(id);
-      List<City> filteredCities = City.filterId(datastore, countryId);
-      response.getWriter().println(gson.toJson(filteredCities));
-    } else if (cityName != null) {
-      List<City> filteredCities = City.filterName(datastore, cityName);
-      response.getWriter().println(gson.toJson(filteredCities));
-    } else if (endpoint == null) {
+    if (endpoint == null) {
+      List<City> cities =
+          City.getAll(datastore)
+              .stream()
+              .filter(c
+                  -> cityName == null || c.getName().toLowerCase().contains(cityName.toLowerCase()))
+              .filter(c -> id == null || c.getCountryId() == Long.parseLong(id))
+              .collect(Collectors.toList());
       // return the list of cities
-      List<City> cities = City.getAll(datastore);
+
       response.getWriter().println(gson.toJson(cities));
 
     } else {
