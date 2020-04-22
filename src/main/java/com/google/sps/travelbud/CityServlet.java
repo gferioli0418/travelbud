@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,13 +37,21 @@ public class CityServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     String endpoint = request.getPathInfo();
+    String cityName = request.getParameter("name");
+    String id = request.getParameter("countryId");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-
     if (endpoint == null) {
+      List<City> cities =
+          City.getAll(datastore)
+              .stream()
+              .filter(c
+                  -> cityName == null || c.getName().toLowerCase().contains(cityName.toLowerCase()))
+              .filter(c -> id == null || c.getCountryId() == Long.parseLong(id))
+              .collect(Collectors.toList());
       // return the list of cities
-      List<City> cities = City.getAll(datastore);
+
       response.getWriter().println(gson.toJson(cities));
 
     } else {

@@ -79,6 +79,19 @@ public class Event {
     }
   }
 
+  public static List<Event> filter(DatastoreService datastore, String name) {
+    List<Event> filteredEvents = new ArrayList<>();
+    List<Event> events = Event.getAll(datastore);
+    for (Event E : events) {
+      String nameOfE = E.getName().toLowerCase();
+      String substr = nameOfE.substring(0, name.length());
+      if (nameOfE.length() >= name.length() && substr.equals(name.toLowerCase())) {
+        filteredEvents.add(E);
+      }
+    }
+    return filteredEvents;
+  }
+
   long getId() {
     return id;
   }
