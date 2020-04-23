@@ -331,3 +331,9 @@ var countries = [
 /* Initiate the autocomplete function on the "myInput" element, and pass along
    the countries array as possible autocomplete values */
 autocomplete(document.getElementById('myInput'), countries);
+
+// Generator URL from search bar input
+function search() {
+  const query = document.getElementById('myInput').value;
+  window.location.href = "/SearchResults.html?q=" + encodeURIComponent(query);
+}
