@@ -14,14 +14,16 @@ import java.util.*;
 public class Country {
   private long id;
   private String name;
+  private String description;
   private List<String> cultureDos;
   private List<String> cultureDonts;
   private String languages;
 
-  Country(
-      long id, String name, List<String> cultureDos, List<String> cultureDonts, String languages) {
+  Country(long id, String name, String description, List<String> cultureDos,
+      List<String> cultureDonts, String languages) {
     this.id = id;
     this.name = name;
+    this.description = description;
     this.cultureDos = cultureDos;
     this.cultureDonts = cultureDonts;
     this.languages = languages;
@@ -30,6 +32,7 @@ public class Country {
   Country(Entity entity) {
     this.id = (long) entity.getKey().getId();
     this.name = (String) entity.getProperty("name");
+    this.description = (String) entity.getProperty("description");
     this.cultureDos = (List<String>) (entity.getProperty("cultureDos"));
     this.cultureDonts = (List<String>) (entity.getProperty("cultureDonts"));
     this.languages = (String) entity.getProperty("languages");
@@ -64,6 +67,10 @@ public class Country {
 
   String getName() {
     return name;
+  }
+
+  String getDescription() {
+    return description;
   }
 
   List<String> getCultureDos() {

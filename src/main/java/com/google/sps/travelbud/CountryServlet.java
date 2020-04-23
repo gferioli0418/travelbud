@@ -67,6 +67,7 @@ public class CountryServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
     String name = getParameter(request, "name", "");
+    String description = getParameter(request, "description", "");
     List<String> cultureDos = Arrays.asList(request.getParameterValues("cultureDos"));
     List<String> cultureDonts = Arrays.asList(request.getParameterValues("cultureDonts"));
     String language = getParameter(request, "language", "");
@@ -74,6 +75,7 @@ public class CountryServlet extends HttpServlet {
     Entity countryEntity = new Entity("Country");
 
     countryEntity.setProperty("name", name);
+    countryEntity.setProperty("description", description);
     countryEntity.setProperty("cultureDos", cultureDos);
     countryEntity.setProperty("cultureDonts", cultureDonts);
     countryEntity.setProperty("language", language);
