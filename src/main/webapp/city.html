@@ -3,27 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <title>TravelBud: Enjoy your destination</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="city.css" />
     <script src="city.js" defer></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sriracha" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Sriracha"
+    />
   </head>
 
-  <body>
-    <!-- Navbar -->
-    <div class="topnav">
-      <a href="#" id="site-name">TravelBud</a>
-      <a href="#">Destinations</a>
-      <a href="#">About Us</a>
-      <a href="#">Contact</a>
-      <div class="search-container">
-        <input type="text" placeholder="Search a city, country, etc." name="search" />
-      </div>
+  <!-- Navbar -->
+  <div class="topnav">
+    <a href="#" id="site-name">TravelBud</a>
+    <a href="#">Destinations</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact</a>
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search a city, country, etc."
+        name="search"
+      />
     </div>
-
+  </div>
+  <body>
     <!-- Header -->
     <section class="header">
       <div class="header-nner">
@@ -34,21 +40,28 @@
 
     <!-- Page content -->
     <div class="content">
-      <!-- Text -->
-      <p>
-        We can't wait to see you travel to your destination. Here is a brief description to get you excited for your
-        trip!
-      </p>
-      <br />
-      <p id="city-description"></p>
-      <br />
-      <br />
-      <br />
-      <p>While you are there, check out these events!</p>
-      <br />
-      <ul id="list-of-events"></ul>
-    </div>
 
+      <!-- Text -->
+      <p class="description">City Description</p>
+      <p class="text" id="city-description"></p>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <p class="description">Local Events</p>
+      <br />
+
+      <table id="eventsTable">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Pricing</th>
+        </tr>
+        <tr id="table-of-events"></tr>
+      </table>
+    </div>
     <!-- Footer -->
     <section class="footer">
       <p>Made during the 2020 Google Software Product Sprint.</p>

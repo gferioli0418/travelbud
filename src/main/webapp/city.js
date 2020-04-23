@@ -2,95 +2,52 @@
  * @param {query} id
  */
 async function searching(id) {
-  var cityId = null
+  const cityResponse = await fetch("/api/cities/" + id);
+  const city = await cityResponse.json();
 
-  const citiesResponse = await fetch("/api/city.html?id=" + id)
-  const cities = await citiesResponse.json()
+  displayCityResults(city);
+}
 
-  for (let city in cities) {
-    if ((cities[city]["id"] === id)) {
-      cityId = cities[city]["id"]
-    }
-  }
+document.addEventListener("DOMContentLoaded", (event) => {
+  loading();
+});
 
-  const eventsResponse = await fetch("/api/events")
-  const events = await eventsResponse.json()
-  var eventName = []
-  var eventDescription = []
-  var eventDate = []
-  var eventLocation = []
-  var eventPricing = []
+/**
+ * Loads seach paramerter.
+ */
+function loading() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const query = urlParams.get("id");
+  searching(query);
+}
 
-  for (let event in events) {
-    if ((events[event]["cityId"] === cityId)) {
-      eventName.push(events[event]["name"])
-      eventDescription.push(events[event]["description"])
-      eventDate.push(events[event]["date"])
-      eventLocation.push(events[event]["location"])
-      eventPricing.push(events[event]["pricing"])
-    }
-  }
-  displayCityResults(
-    cities[city],
-    eventName,
-    eventDescription,
-    eventDate,
-    eventLocation,
-    eventPricing
-  )
+/**
+ * @param {results} results
+ */
+function displayCityResults(city) {
+  const cityElement = document.createElement("H1");
+  cityElement.innerText = city.name;
+  document.getElementById("city-name").appendChild(cityElement);
 
-  document.addEventListener("DOMContentLoaded", (event) => {
-    loading()
-  })
+  const cityDescElement = document.createElement("P");
+  cityDescElement.innerText = city.description;
+  document.getElementById("city-description").appendChild(cityDescElement);
 
-  /**
-   * Loads seach paramerter.
-   */
-  function loading() {
-    const queryString = window.location.search
-    const urlParams = new URLSearchParams(queryString)
-    const query = urlParams.get("q")
-    searching(query)
-  }
+  var table = document.getElementById("eventsTable");
+  for (var event in city.events) {
+    var row = table.insertRow(-1);
 
-  /**
-   * @param {results} results
-   */
-  function displayCityResults(
-    results,
-    eventName,
-    eventDescription,
-    eventDate,
-    eventLocation,
-    eventPricing
-  ) {
-    const cityElement = document.createElement("H1")
-    cityElement.innerText = results["name"]
-    document.getElementById("city-name").appendChild(cityElement)
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
 
-    const cityDescElement = document.createElement("P")
-    cityDescElement.innerText = results["description"]
-    document.getElementById("city-description").appendChild(cityDescElement)
-
-    var eventsElement = document.createElement("ul")
-    for (var i = 0; i < eventName.length; i++) {
-      var item = document.createElement("li")
-      item.appendChild(
-        document.createTextNode(
-          "Name: " +
-            eventName[i] +
-            ", Description: " +
-            eventDescription[i] +
-            ", Date: " +
-            eventDate[i] +
-            ", Location: " +
-            eventLocation[i] +
-            ", Pricing: " +
-            eventPricing
-        )
-      )
-      eventsElement.appendChild(item)
-    }
-    document.getElementById("list-of-events").appendChild(eventsElement)
+    cell1.innerHTML = event.name;
+    cell2.innerHTML = event.description;
+    cell3.innerHTML = event.date;
+    cell4.innerHTML = event.location;
+    cell5.innerHTML = event.pricing;
   }
 }
