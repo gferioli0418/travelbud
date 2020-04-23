@@ -7,39 +7,10 @@ async function searching(input) {
   headingContainer.innerText = input.toUpperCase();
 
   input = input.toLowerCase();
-  var countryId = null;
-  var countryName = null;
+  console.log(encodeURI(input));
+  const searchResponse = await fetch('/api/search?name=' + encodeURI(input));
+  const results = await searchResponse.json();
 
-  const countriesResponse = await fetch('/api/countries');
-  const countries = await countriesResponse.json();
-  
-  const citiesResponse = await fetch('/api/cities?name=' + input);
-  const cities = await citiesResponse.json();
-
-  var cityArray = [];
-
-
-  for (let city in cities) {
-    var cityName = cities[city]['name'].toLowerCase();
-    if(cityName.includes(input)){
-      cityArray.push(cities[city]);
-      delete cities[city]; 
-    }    
-  }
-
-  for (let country in countries) {
-      var countryName = countries[country]['name'].toLowerCase();
-    if(countryName.includes(input)){
-      countryId = countries[country]['id'];
-      for (let city in cities) {
-        var cityName = cities[city]['name'].toLowerCase();
-        if(cities[city]['countryId'] === countryId ) {
-          cityArray.push(cities[city]);
-          delete cities[city]; 
-        }
-      }
-    }
-  }
 
   console.log(cityArray);
     displayCityResults(cityArray, countries);  
