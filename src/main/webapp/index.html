@@ -22,13 +22,14 @@
           Discover the world's hidden gems <br />
           before planning your next trip.
         </h1>
-        
+
         <!-- Search Bar -->
         <form autocomplete="off">
-          <div class="autocomplete">
-            <input id="myInput" type="text" name="Country" placeholder="Search a country" />
+          <div class="autocomplete" action="/SearchResults.html" method="GET">
+            <input id="myInput" type="text" name="q" placeholder="Search a country" />
           </div>
-          <input type="submit" value="Go" />
+          <!-- <input type="submit" value="Go" /> -->
+          <button type="button" onclick="search()" class="button">Go</button>
         </form>
       </div>
     </section>
