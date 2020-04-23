@@ -9,27 +9,20 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
     />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Sriracha"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sriracha" />
   </head>
 
-  <!-- Navbar -->
-  <div class="topnav">
-    <a href="#" id="site-name">TravelBud</a>
-    <a href="#">Destinations</a>
-    <a href="#">About Us</a>
-    <a href="#">Contact</a>
-    <div class="search-container">
-      <input
-        type="text"
-        placeholder="Search a city, country, etc."
-        name="search"
-      />
-    </div>
-  </div>
   <body>
+    <!-- Navbar -->
+    <div class="topnav">
+      <a href="#" id="site-name">TravelBud</a>
+      <a href="#">Destinations</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <div class="search-container">
+        <input type="text" placeholder="Search a city, country, etc." name="search" />
+      </div>
+    </div>
     <!-- Header -->
     <section class="header">
       <div class="header-nner">
@@ -40,7 +33,6 @@
 
     <!-- Page content -->
     <div class="content">
-
       <!-- Text -->
       <p class="description">City Description</p>
       <p class="text" id="city-description"></p>
@@ -48,18 +40,38 @@
       <br />
       <hr />
       <br />
+      <p class="description">When Visiting:</p>
+      <div class="row">
+        <div class="column">
+          <p class="description2">Do</p>
+          <ul id="dos">
+            <li id="language"></li>
+          </ul>
+        </div>
+        <div class="column">
+          <p class="description2">Don't</p>
+          <ul id="donts"></ul>
+        </div>
+      </div>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <br />
       <p class="description">Local Events</p>
       <br />
 
       <table id="eventsTable">
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Date</th>
-          <th>Location</th>
-          <th>Pricing</th>
-        </tr>
-        <tr id="table-of-events"></tr>
+        <tbody>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date</th>
+            <th scope="col">Location</th>
+            <th scope="col">Pricing</th>
+          </tr>
+          <tr id="table-of-events"></tr>
+        </tbody>
       </table>
     </div>
     <!-- Footer -->

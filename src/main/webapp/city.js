@@ -3,9 +3,11 @@
  */
 async function searching(id) {
   const cityResponse = await fetch("/api/cities/" + id);
+  const countryResponse = await fetch("/api/countries/" + city.countryId);
   const city = await cityResponse.json();
+  const country = await countryResponse.json();
 
-  displayCityResults(city);
+  displayCityResults(city,country);
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -25,15 +27,41 @@ function loading() {
 /**
  * @param {results} results
  */
-function displayCityResults(city) {
+function displayCityResults(city,country) {
+
+  // add name of city as header element 
   const cityElement = document.createElement("H1");
   cityElement.innerText = city.name;
   document.getElementById("city-name").appendChild(cityElement);
 
+  // add description as paragraph element 
   const cityDescElement = document.createElement("P");
   cityDescElement.innerText = city.description;
   document.getElementById("city-description").appendChild(cityDescElement);
 
+  // add do's and dont's as two seperate unordered lists
+  var doElement = document.createElement("ul")  
+  for (doTip in country.cultureDos){
+    var item = document.createElement("li")
+    item.appendChild(doTip)
+    doElement.appendChild(item);
+  }
+  document.getElementById("dos").appendChild(doElement);
+
+  var dontElement = document.createElement("ul")
+  for (dontTip in country.cultureDonts){
+    var item = document.createElement("li")
+    item.appendChild(dontTip)
+    dontElement.appendChild(item);
+  }
+  document.getElementById("donts").appendChild(dontElement);
+
+  // add language spoken to "dos" list 
+  var languageElement = document.createElement("li")
+  languageElement.appendChild("Learn a few important words in " + country.languages)
+  document.getElementById("language").appendChild(languageElement);
+
+  // add table with events as individual rows
   var table = document.getElementById("eventsTable");
   for (var event in city.events) {
     var row = table.insertRow(-1);
