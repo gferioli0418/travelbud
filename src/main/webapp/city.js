@@ -2,32 +2,32 @@
  * @param {query} id
  */
 async function searching(id) {
-  var cityId = null;
+  var cityId = null
 
-  const citiesResponse = await fetch("/api/city.html?id=" + id);
-  const cities = await citiesResponse.json();
+  const citiesResponse = await fetch("/api/city.html?id=" + id)
+  const cities = await citiesResponse.json()
 
   for (let city in cities) {
-    if ((cities[city]["id"] = id)) {
-      cityId = cities[city]["id"];
+    if ((cities[city]["id"] === id)) {
+      cityId = cities[city]["id"]
     }
   }
 
-  const eventsResponse = await fetch("/api/events");
-  const events = await eventsResponse.json();
-  var eventName = [];
-  var eventDescription = [];
-  var eventDate = [];
-  var eventLocation = [];
-  var eventPricing = [];
+  const eventsResponse = await fetch("/api/events")
+  const events = await eventsResponse.json()
+  var eventName = []
+  var eventDescription = []
+  var eventDate = []
+  var eventLocation = []
+  var eventPricing = []
 
   for (let event in events) {
-    if ((events[event]["cityId"] = cityId)) {
-      eventName.push(events[event]["name"]);
-      eventDescription.push(events[event]["description"]);
-      eventDate.push(events[event]["date"]);
-      eventLocation.push(events[event]["location"]);
-      eventPricing.push(events[event]["pricing"]);
+    if ((events[event]["cityId"] === cityId)) {
+      eventName.push(events[event]["name"])
+      eventDescription.push(events[event]["description"])
+      eventDate.push(events[event]["date"])
+      eventLocation.push(events[event]["location"])
+      eventPricing.push(events[event]["pricing"])
     }
   }
   displayCityResults(
@@ -37,20 +37,20 @@ async function searching(id) {
     eventDate,
     eventLocation,
     eventPricing
-  );
+  )
 
   document.addEventListener("DOMContentLoaded", (event) => {
-    loading();
-  });
+    loading()
+  })
 
   /**
    * Loads seach paramerter.
    */
   function loading() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const query = urlParams.get("q");
-    searching(query);
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const query = urlParams.get("q")
+    searching(query)
   }
 
   /**
@@ -64,17 +64,17 @@ async function searching(id) {
     eventLocation,
     eventPricing
   ) {
-    const cityElement = document.createElement("H1");
-    cityElement.innerText = results["name"];
-    document.getElementById("city-name").appendChild(cityElement);
+    const cityElement = document.createElement("H1")
+    cityElement.innerText = results["name"]
+    document.getElementById("city-name").appendChild(cityElement)
 
-    const cityDescElement = document.createElement("P");
-    cityDescElement.innerText = results["description"];
-    document.getElementById("city-description").appendChild(cityDescElement);
+    const cityDescElement = document.createElement("P")
+    cityDescElement.innerText = results["description"]
+    document.getElementById("city-description").appendChild(cityDescElement)
 
-    var eventsElement = document.createElement("ul");
+    var eventsElement = document.createElement("ul")
     for (var i = 0; i < eventName.length; i++) {
-      var item = document.createElement("li");
+      var item = document.createElement("li")
       item.appendChild(
         document.createTextNode(
           "Name: " +
@@ -88,9 +88,9 @@ async function searching(id) {
             ", Pricing: " +
             eventPricing
         )
-      );
-      eventsElement.appendChild(item);
+      )
+      eventsElement.appendChild(item)
     }
-    document.getElementById("list-of-events").appendChild(eventsElement);
+    document.getElementById("list-of-events").appendChild(eventsElement)
   }
 }
