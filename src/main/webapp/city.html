@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TravelBud: Enjoy your destination</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="city.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Sriracha"
+    />
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <div class="topnav">
+      <a href="#" id="site-name">TravelBud</a>
+      <a href="#">Destinations</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <div class="search-container">
+        <input
+          type="text"
+          placeholder="Search a city, country, etc."
+          name="search"
+        />
+      </div>
+    </div>
+
+    <!-- Header -->
+    <section class="header">
+      <div class="header-nner">
+        <h2>Enjoy your trip to</h2>
+        <h1 id="city-name"></h1>
+      </div>
+    </section>
+
+    <!-- Page content -->
+    <div class="content">
+      <!-- Text -->
+      <p>
+        We can't wait to see you travel to your destination. Here is a brief
+        description to get you excited for your trip!
+      </p>
+      <br />
+      <p id="city-description"></p>
+      <br />
+      <br />
+      <br />
+      <p>While you are there, check out these events!</p>
+      <br />
+      <ul id="list-of-events"></ul>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer">
+      <p>Made during the 2020 Google Software Product Sprint.</p>
+    </section>
+  </body>
+</html>
