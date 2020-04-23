@@ -98,7 +98,8 @@ function autocomplete(inp, arr) {
 
   // Execute a function when someone clicks on the document
   document.addEventListener('click', function(e) {
-    closeAllLists(e.target);
+    let a = document.getElementById('autocomplete-list');
+    a.innerHTML = "";
   });
 }
 

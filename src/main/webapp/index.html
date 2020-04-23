@@ -26,7 +26,9 @@
         <!-- Search Bar -->
         <form autocomplete="off">
           <div class="autocomplete" action="/SearchResults.html" method="GET">
-            <input id="myInput" type="text" name="q" placeholder="Search a country" />
+            <input id="myInput" type="text" name="q" placeholder="Search a country">
+              <div id="autocomplete-list" class="autocomplete-items"></div>
+            </input>
           </div>
           <!-- <input type="submit" value="Go" /> -->
           <button type="button" onclick="search()" class="button">Go</button>
