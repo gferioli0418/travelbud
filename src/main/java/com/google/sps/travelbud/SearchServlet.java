@@ -29,16 +29,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. */
-@WebServlet(urlPatterns = {"/api/search"})
+@WebServlet("/api/search")
 
 public class SearchServlet extends HttpServlet {
-  public class SearchClass {
+  public class SearchResult {
     String name;
     String description;
     String type;
     long id;
 
-    SearchClass(String name, String description, String type, long id) {
+    SearchResult(String name, String description, String type, long id) {
       this.name = name;
       this.description = description;
       this.type = type;
@@ -54,33 +54,25 @@ public class SearchServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Gson gson = new Gson();
     if (name != null) {
-      List<SearchClass> countryResults =
+      List<SearchResult> countryResults =
           Country.getAll(datastore)
               .stream()
-              .filter(C -> C.getName().toLowerCase().contains(name.toLowerCase()))
-              .map(C -> {
-                SearchClass search =
-                    new SearchClass(C.getName(), C.getDescription(), "Country", C.getId());
-                return search;
-              })
+              .filter(c -> c.getName().toLowerCase().contains(name.toLowerCase()))
+              .map(c -> new SearchResult(c.getName(), c.getDescription(), "Country", c.getId()))
               .collect(Collectors.toList());
 
       Set<Long> countryIds =
           countryResults.stream().map(result -> result.id).collect(Collectors.toSet());
-      List<SearchClass> cityResults =
+      List<SearchResult> cityResults =
           City.getAll(datastore)
               .stream()
-              .filter(C
-                  -> C.getName().toLowerCase().contains(name.toLowerCase())
-                      || countryIds.contains(C.getCountryId()))
-              .map(C -> {
-                SearchClass search =
-                    new SearchClass(C.getName(), C.getDescription(), "City", C.getId());
-                return search;
-              })
+              .filter(c
+                  -> c.getName().toLowerCase().contains(name.toLowerCase())
+                      || countryIds.contains(c.getCountryId()))
+              .map(c -> new SearchResult(c.getName(), c.getDescription(), "City", c.getId()))
               .collect(Collectors.toList());
 
-      List<SearchClass> results = new ArrayList<>();
+      List<SearchResult> results = new ArrayList<>();
       results.addAll(countryResults);
       results.addAll(cityResults);
       response.getWriter().println(gson.toJson(results));
