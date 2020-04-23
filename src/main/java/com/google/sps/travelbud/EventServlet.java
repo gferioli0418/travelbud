@@ -67,7 +67,6 @@ public class EventServlet extends HttpServlet {
     // Get the input from the form.
 
     String name = getParameter(request, "name", "");
-    long cityId = Long.parseLong(getParameter(request, "id", ""));
     String description = getParameter(request, "description", "");
     String date = getParameter(request, "date", "");
     String location = getParameter(request, "location", "");
