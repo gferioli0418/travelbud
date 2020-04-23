@@ -2,6 +2,10 @@
  * @param {query} input
  */
 async function searching(input) {
+  
+  const headingContainer = document.getElementById('Heading');
+  headingContainer.innerText = input.toUpperCase();
+
   input = input.toLowerCase();
   var countryId = null;
   var countryName = null;
@@ -9,24 +13,36 @@ async function searching(input) {
   const countriesResponse = await fetch('/api/countries');
   const countries = await countriesResponse.json();
   
-  for (let country in countries) {
-    if(countries[country]['name'].toLowerCase() === input){
-        displayCountryResults(countries[country]);
-        countryId = countries[country]['id'];
-        countryName = countries[country]['name'];
-        break;
-    }
-  }
-
   const citiesResponse = await fetch('/api/cities?name=' + input);
   const cities = await citiesResponse.json();
 
+  var cityArray = [];
+
+
   for (let city in cities) {
-    if(cities[city]['countryId'] !== countryId){
-        delete cities[city]; 
+    var cityName = cities[city]['name'].toLowerCase();
+    if(cityName.includes(input)){
+      cityArray.push(cities[city]);
+      delete cities[city]; 
+    }    
+  }
+
+  for (let country in countries) {
+      var countryName = countries[country]['name'].toLowerCase();
+    if(countryName.includes(input)){
+      countryId = countries[country]['id'];
+      for (let city in cities) {
+        var cityName = cities[city]['name'].toLowerCase();
+        if(cities[city]['countryId'] === countryId ) {
+          cityArray.push(cities[city]);
+          delete cities[city]; 
+        }
+      }
     }
   }
-    displayCityResults(cities, countryName);  
+
+  console.log(cityArray);
+    displayCityResults(cityArray, countries);  
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -46,7 +62,7 @@ function loading() {
 /**
  * @param {results} results
  */
-function displayCityResults(results, countryName) {
+function displayCityResults(results, countries) {
   const flexElement = document.getElementById('flex-container');
 
   for (let result = 0, l = results.length; result < l; ++result) {
@@ -64,6 +80,14 @@ function displayCityResults(results, countryName) {
 
     const cityElement = document.createElement('h1');
     cityElement.innerText = results[result]['name'];
+
+    var countryName ="";
+    for (let country in countries) {
+        if(countries[country]['id'] === results[result]['countryId']){
+          var countryName = countries[country]['name'];
+          break;
+        }
+    }
 
     const countryElement = document.createElement('h2');
     countryElement.innerText = countryName;
@@ -87,15 +111,15 @@ function displayCityResults(results, countryName) {
 }
 
 function displayCountryResults(results) {
-        const headingContainer = document.getElementById('Heading');
-        headingContainer.innerText = results['name'].toUpperCase();
+    for (let result = 0, l = results.length; result < l; ++result) {
 
         const country = document.getElementById('country-name');
-        country.innerText = results['name'];
+        country.innerText = results[result]['name'];
 
         const languagesContainer = document.getElementById('Languages');
-        languagesContainer.innerText = 'Language(s): ' + results['languages'];
+        languagesContainer.innerText = 'Language(s): ' + results[result]['languages'];
 
         const discriptionContainer = document.getElementById('country-description');
-        discriptionContainer.innerText = results['description'];
+        discriptionContainer.innerText = results[result]['description'];
+    }
 }
