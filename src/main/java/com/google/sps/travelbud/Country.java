@@ -1,44 +1,86 @@
+
 package com.google.sps.travelbud;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import java.util.*;
+
 public class Country {
-  static Country DENMARK = new Country(1, "Denmark",
-      Arrays.asList("Shake hands with women first", "Speak in a moderate tone",
-          "Communicate very directly in any conversation"),
-      Arrays.asList("Try not to attract attention"), "Danish");
-
-  static Country SOUTH_KOREA = new Country(2, "South Korea",
-      Arrays.asList("Always bow to individuals when departing",
-          "Handshakes often accompany the bow among men",
-          "Communicate very directly in any conversation"),
-      Arrays.asList("Do not use excessive or overt body language"), "Korean");
-  static List<Country> COUNTRIES = Arrays.asList(DENMARK, SOUTH_KOREA);
-
-  private int id;
+  private long id;
   private String name;
+  private String description;
   private List<String> cultureDos;
   private List<String> cultureDonts;
   private String languages;
 
-  Country(
-      int id, String name, List<String> cultureDos, List<String> cultureDonts, String languages) {
+  Country(long id, String name, String description, List<String> cultureDos,
+      List<String> cultureDonts, String languages) {
     this.id = id;
     this.name = name;
+    this.description = description;
     this.cultureDos = cultureDos;
     this.cultureDonts = cultureDonts;
     this.languages = languages;
   }
-  int getId() {
+
+  Country(Entity entity) {
+    this.id = (long) entity.getKey().getId();
+    this.name = (String) entity.getProperty("name");
+    this.description = (String) entity.getProperty("description");
+    this.cultureDos = (List<String>) (entity.getProperty("cultureDos"));
+    this.cultureDonts = (List<String>) (entity.getProperty("cultureDonts"));
+    this.languages = (String) entity.getProperty("languages");
+  }
+
+  public static List<Country> getAll(DatastoreService datastore) {
+    List<Country> countries = new ArrayList<>();
+    Query queryCountry = new Query("Country");
+    PreparedQuery countriesQuery = datastore.prepare(queryCountry);
+    // iterate through each of the countries and add it to the list
+    for (Entity entity : countriesQuery.asIterable()) {
+      Country c = new Country(entity);
+      countries.add(c);
+    }
+    return countries;
+  }
+
+  public static Country getCountry(DatastoreService datastore, long countryId) {
+    Key key = KeyFactory.createKey("Country", countryId);
+    try {
+      Entity entity = datastore.get(key);
+      Country c = new Country(entity);
+      return c;
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  long getId() {
     return id;
   }
+
   String getName() {
     return name;
   }
+
+  String getDescription() {
+    return description;
+  }
+
   List<String> getCultureDos() {
     return cultureDos;
   }
+
   List<String> getCultureDonts() {
     return cultureDonts;
   }
+
   String getLanguages() {
     return languages;
   }

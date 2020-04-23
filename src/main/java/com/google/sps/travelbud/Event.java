@@ -1,26 +1,25 @@
 package com.google.sps.travelbud;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import java.util.*;
+
 public class Event {
-  static Event COPENHAGEN_EVENT_1 = new Event(1, "Ecstatic Dance", 1, "Some dancing description",
-      "2020-04-04 16:45:00 UTC", "s4 Æbeløgade, 2100 København, Denmark", 22.00);
-  static List<Event> COPENHAGEN_EVENTS = Arrays.asList(COPENHAGEN_EVENT_1);
-
-  static Event BUSAN_EVENT_1 = new Event(2, "Busan International Boat Show", 2,
-      "Some boat show description", "2020-05-21 03:00:00 UTC",
-      "84 Haeundaehaebyeon-ro, U-dong, Haeundae-gu, Busan, South Korea", 0.5);
-  static List<Event> BUSAN_EVENTS = Arrays.asList(BUSAN_EVENT_1);
-
-  static List<Event> ALL_EVENTS = Arrays.asList(COPENHAGEN_EVENT_1, BUSAN_EVENT_1);
-
-  private int id;
+  private long id;
   private String name;
-  private int cityId;
+  private long cityId;
   private String description;
   private String date;
   private String location;
   private double pricing;
 
-  Event(int id, String name, int cityId, String description, String date, String location,
+  Event(long id, String name, long cityId, String description, String date, String location,
       double pricing) {
     this.id = id;
     this.name = name;
@@ -30,24 +29,93 @@ public class Event {
     this.location = location;
     this.pricing = pricing;
   }
-  int getId() {
+
+  Event(Entity entity) {
+    this.id = (long) entity.getKey().getId();
+    this.name = (String) entity.getProperty("name");
+    this.cityId = (long) entity.getProperty("cityId");
+    this.description = (String) entity.getProperty("description");
+    this.date = (String) entity.getProperty("date");
+    this.location = (String) entity.getProperty("location");
+    this.pricing = (double) entity.getProperty("pricing");
+  }
+
+  public static List<Event> getEventsInCity(DatastoreService datastore, long cityId) {
+    List<Event> events = new ArrayList<>();
+    Query query = new Query("Event");
+    PreparedQuery results = datastore.prepare(query);
+
+    // iterate though each event entity
+    for (Entity entity : results.asIterable()) {
+      long city = (long) entity.getProperty("cityId");
+      // only add ones with the specific cityId
+      if (city == cityId) {
+        Event e = new Event(entity);
+        events.add(e);
+      }
+    }
+    return events;
+  }
+  public static List<Event> getAll(DatastoreService datastore) {
+    List<Event> events = new ArrayList<>();
+    Query query = new Query("Event");
+    PreparedQuery results = datastore.prepare(query);
+    // iterate through each event entity and add it to the list
+    for (Entity entity : results.asIterable()) {
+      Event e = new Event(entity);
+      events.add(e);
+    }
+    return events;
+  }
+
+  public static Event getEvent(DatastoreService datastore, long eventId) {
+    Key key = KeyFactory.createKey("Event", eventId);
+    try {
+      Entity entity = datastore.get(key);
+      Event event = new Event(entity);
+      return event;
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  public static List<Event> filter(DatastoreService datastore, String name) {
+    List<Event> filteredEvents = new ArrayList<>();
+    List<Event> events = Event.getAll(datastore);
+    for (Event E : events) {
+      String nameOfE = E.getName().toLowerCase();
+      String substr = nameOfE.substring(0, name.length());
+      if (nameOfE.length() >= name.length() && substr.equals(name.toLowerCase())) {
+        filteredEvents.add(E);
+      }
+    }
+    return filteredEvents;
+  }
+
+  long getId() {
     return id;
   }
+
   String getName() {
     return name;
   }
-  int getCityId() {
+
+  long getCityId() {
     return cityId;
   }
+
   String getDescription() {
     return description;
   }
+
   String getDate() {
     return date;
   }
+
   String getLocation() {
     return location;
   }
+
   double getPricing() {
     return pricing;
   }

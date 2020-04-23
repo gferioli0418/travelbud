@@ -1,3 +1,4 @@
+
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +14,16 @@
 // limitations under the License.
 
 package com.google.sps.travelbud;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,23 +33,30 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/api/cities/*"})
 public class CityServlet extends HttpServlet {
   @Override
-
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
-    // list of cities
-    List<City> cities = City.CITIES;
-
     String endpoint = request.getPathInfo();
+    String cityName = request.getParameter("name");
+    String id = request.getParameter("countryId");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Gson gson = new Gson();
-
     if (endpoint == null) {
+      List<City> cities =
+          City.getAll(datastore)
+              .stream()
+              .filter(c
+                  -> cityName == null || c.getName().toLowerCase().contains(cityName.toLowerCase()))
+              .filter(c -> id == null || c.getCountryId() == Long.parseLong(id))
+              .collect(Collectors.toList());
       // return the list of cities
+
       response.getWriter().println(gson.toJson(cities));
 
     } else {
-      City city = getCity(cities, endpoint);
+      long cityId = Long.parseLong(endpoint.substring(1));
+      City city = City.getCity(datastore, cityId);
       if (city == null) {
         response.sendError(HttpServletResponse.SC_NOT_FOUND, "City Not Found");
       } else {
@@ -49,18 +64,28 @@ public class CityServlet extends HttpServlet {
       }
     }
   }
-  public City getCity(List<City> cities, String path) {
-    // adjust endpoint
-    int cityId = Integer.parseInt(path.substring(1));
 
-    // search for each country element in the List
-    for (City tempCity : cities) {
-      int tempCityId = tempCity.getId();
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String name = getParameter(request, "name", "");
+    long countryId = Long.parseLong(getParameter(request, "countryId", ""));
+    String description = getParameter(request, "description", "");
 
-      if (tempCityId == cityId) {
-        return tempCity;
-      }
+    Entity cityEntity = new Entity("City");
+    cityEntity.setProperty("name", name);
+    cityEntity.setProperty("countryId", countryId);
+    cityEntity.setProperty("description", description);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(cityEntity);
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
     }
-    return null;
+    return value;
   }
 }

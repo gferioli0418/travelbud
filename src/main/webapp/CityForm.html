@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<title>Event Form</title>
+<link rel="stylesheet" href="style.css" />
+<div id="content">
+  <div id="location-container"></div>
+  <form action="/api/cities" method="post">
+    <h1>Enter a city</h1>
+
+    <p>Name:</p>
+    <textarea name="name" placeholder="Busan"></textarea>
+
+    <p>Country ID</p>
+    <textarea name="countryId" placeholder="1"></textarea>
+
+    <p>Description</p>
+    <textarea name="description" placeholder="cool city description"></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
