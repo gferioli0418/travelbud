@@ -264,6 +264,38 @@ paths:
               $ref: '#/components/schemas/Event'
         description: a form with all the properties/values of the event.
       description: This PUT request updates entries to the backend.This is useful for wanting to change a property of a specific event..
+  /search:
+    get:
+      summary: GetSearchResults
+      tags:
+        - Search
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+              examples:
+                example-results:
+                  value:
+                    - name: New England
+                      type: Country
+                      id: 45
+                      description: something
+                    - name: New York
+                      type: City
+                      id: 455
+                      description: something
+      operationId: get-search
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name to search for among countries and cities
 components:
   schemas:
     Country:
@@ -380,4 +412,27 @@ components:
           pricing: 0.5
       x-tags:
         - Events
+    SearchResult:
+      title: SearchResult
+      type: object
+      x-tags:
+        - Search
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - Country
+            - City
+      x-examples:
+        example-1:
+          name: Sudan
+          type: Country
+          id: 45
+          description: something
   securitySchemes: {}
