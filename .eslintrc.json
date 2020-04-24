@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "es6": true,
-    "ecmaVersion": 2017,
+    "ecmaVersion": 2017
   },
   "extends": ["eslint:recommended", "google"],
   "rules": {
