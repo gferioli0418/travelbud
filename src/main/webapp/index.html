@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <title>TravelBud</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style-homepage.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
     />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sriracha" />
-    <script src="script.js"></script>
+    <script async src="script.js"></script>
   </head>
 
   <body>
@@ -22,7 +22,16 @@
           Discover the world's hidden gems <br />
           before planning your next trip.
         </h1>
-        <input type="text" name="search" placeholder="Search a city, country, etc." />
+
+        <!-- Search Bar -->
+        <form autocomplete="off">
+          <div class="autocomplete" action="/SearchResults.html" method="GET">
+            <input id="myInput" type="text" name="q" placeholder="Search a country" />
+            <div id="autocomplete-list" class="autocomplete-items"></div>
+          </div>
+          <!-- <input type="submit" value="Go" /> -->
+          <button type="button" onclick="search()" class="button">Go</button>
+        </form>
       </div>
     </section>
 
