@@ -3,8 +3,8 @@
  */
 async function searching(id) {
   const cityResponse = await fetch("/api/cities/" + id);
-  const countryResponse = await fetch("/api/countries/" + city.countryId);
   const city = await cityResponse.json();
+  const countryResponse = await fetch("/api/countries/" + city.countryId);
   const country = await countryResponse.json();
 
   displayCityResults(city,country);
