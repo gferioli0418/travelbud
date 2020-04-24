@@ -7,13 +7,15 @@ async function searching(input) {
   headingContainer.innerText = input.toUpperCase();
 
   input = input.toLowerCase();
-  console.log(encodeURI(input));
   const searchResponse = await fetch('/api/search?name=' + encodeURI(input));
   const results = await searchResponse.json();
 
-
-  console.log(cityArray);
-    displayCityResults(cityArray, countries);  
+  const countriesResponse = await fetch('/api/countries');
+  const countries = await countriesResponse.json();
+  const citiesResponse = await fetch('/api/cities');
+  const cities = await citiesResponse.json();
+  displayCityResults(results, cities, countries);
+  
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -33,11 +35,10 @@ function loading() {
 /**
  * @param {results} results
  */
-function displayCityResults(results, countries) {
+function displayCityResults(results, cities, countries) {
   const flexElement = document.getElementById('flex-container');
-
-  for (let result = 0, l = results.length; result < l; ++result) {
-    if (results[result] !== undefined) {
+  
+  for (let result of results) {
     const divElement = document.createElement('div');
 
     const imgUrl = 'images.jpg';
@@ -50,47 +51,50 @@ function displayCityResults(results, countries) {
     divInfoElement.className = 'container';
 
     const cityElement = document.createElement('h1');
-    cityElement.innerText = results[result]['name'];
+    cityElement.innerText =result.name;
 
+    divInfoElement.appendChild(cityElement);
+
+    if (result.type == 'City') {
+    var cityId ="";
+
+    for (let city of cities) {
+        if(result.id === city.id){
+            cityId =city.countryId;
+            break;
+        }
+    }
     var countryName ="";
-    for (let country in countries) {
-        if(countries[country]['id'] === results[result]['countryId']){
-          var countryName = countries[country]['name'];
+    for (let country of countries) {
+        if(country.id === cityId){
+          var countryName = country.name;
           break;
         }
     }
-
+    
     const countryElement = document.createElement('h2');
     countryElement.innerText = countryName;
+    divInfoElement.appendChild(countryElement);
+    }
 
     const cityDescElement = document.createElement('p');
-    cityDescElement.innerText = results[result]['description'];
+    cityDescElement.innerText = result.description;
 
     const exploreButtonElement = document.createElement('button');
     exploreButtonElement.className = 'button';
     exploreButtonElement.innerText = 'EXPLORE';
+    let link = "";
+    if (result.type == "Country") {
+      link = '/country.html?id=' + result.id;
+    } else {
+      link = '/city.html?id=' + result.id;
+    }
+    exploreButtonElement.onclick = function(){location.href = link};
 
-    divInfoElement.appendChild(cityElement);
-    divInfoElement.appendChild(countryElement);
     divInfoElement.appendChild(cityDescElement);
     divInfoElement.appendChild(exploreButtonElement);
     divElement.appendChild(divInfoElement);
-
     flexElement.appendChild(divElement);
   }
-  }
 }
 
-function displayCountryResults(results) {
-    for (let result = 0, l = results.length; result < l; ++result) {
-
-        const country = document.getElementById('country-name');
-        country.innerText = results[result]['name'];
-
-        const languagesContainer = document.getElementById('Languages');
-        languagesContainer.innerText = 'Language(s): ' + results[result]['languages'];
-
-        const discriptionContainer = document.getElementById('country-description');
-        discriptionContainer.innerText = results[result]['description'];
-    }
-}
