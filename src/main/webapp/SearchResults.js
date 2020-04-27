@@ -41,7 +41,7 @@ function displayCityResults(results, cities, countries) {
   for (const result of results) {
     const divElement = document.createElement('div');
 
-    const imgUrl = 'images.jpg';
+    const imgUrl = 'images/' + result.name.toLowerCase() + '.jpg';
     const imgElement = document.createElement('img');
     imgElement.src = imgUrl;
 
