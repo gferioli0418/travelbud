@@ -8,6 +8,8 @@
   },
   "extends": ["eslint:recommended", "google"],
   "rules": {
-    "no-multi-spaces": "off"
+    "no-multi-spaces": "off",
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off"
   }
 }

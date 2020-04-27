@@ -1,52 +1,47 @@
-/** *************************
+/**
+*************************
 Autocomplete Searchbar
-***************************/
+**************************
+*/
 function autocomplete(inp, arr) {
   // Create variable for the item on list currently focused on
   let currentFocus;
 
   // Function for when the user types into the searchbar
   inp.addEventListener('input', function() {
-    let a; let b; let i; const val = this.value;
+    const val = this.value;
 
-    // Close any open autocomplete lists
-    closeAllLists();
-    if (!val) {
+    // Get and clear the autocomplete list
+    const a = document.getElementById('autocomplete-list');
+    a.innerHTML = '';
+
+    // Provide no suggestions for empty input
+    if (!this.value) {
       return false;
     }
-
     currentFocus = -1;
 
-    // Create a DIV element that will contain the items (values)
-    a = document.createElement('DIV');
-    a.setAttribute('id', this.id + 'autocomplete-list');
-    a.setAttribute('class', 'autocomplete-items');
-
-    // Append the DIV element as a child of the autocomplete container
-    this.parentNode.appendChild(a);
-
     // Check if the item starts with the same letters as the text field value
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-        b = document.createElement('DIV');
-        b.innerHTML = '<strong>' + arr[i].substr(0, val.length) + '</strong>';
-        b.innerHTML += arr[i].substr(val.length);
-        b.innerHTML += '<input type=\'hidden\' value=\'' + arr[i] + '\'>';
-
-        // Execute a function when someone clicks on the item value (DIV element)
-        b.addEventListener('click', function(e) {
-          inp.value = this.getElementsByTagName('input')[0].value;
-          closeAllLists();
+    arr.filter((c) => c.toUpperCase().startsWith(val.toUpperCase()))
+        .forEach((c) => {
+          const b = document.createElement('div');
+          b.innerHTML = '<strong>' + val + '</strong>';
+          b.innerHTML += c.substr(val.length);
+          b.innerHTML += '<input type=\'hidden\' value=\'' + c + '\'>';
+          // Execute a function when someone clicks on the item value (div
+          // element)
+          b.addEventListener('click', function(e) {
+            // use suggestion as input value and clear autocomplete list.
+            inp.value = this.getElementsByTagName('input')[0].value;
+            a.innerHTML = '';
+          });
+          a.appendChild(b);
         });
-
-        a.appendChild(b);
-      }
-    }
   });
 
   // Execute a function presses a key on the keyboard
   inp.addEventListener('keydown', function(e) {
-    let x = document.getElementById(this.id + 'autocomplete-list');
+    let x = document.getElementById('autocomplete-list');
     if (x) x = x.getElementsByTagName('div');
     if (e.keyCode == 40) {
       // If the arrow DOWN key is pressed, increase currentFocus
@@ -62,6 +57,9 @@ function autocomplete(inp, arr) {
       if (currentFocus > -1) {
         // Simulate click on active item
         if (x) x[currentFocus].click();
+      } else {
+        // invoke the search function
+        search();
       }
     }
   });
@@ -78,7 +76,6 @@ function autocomplete(inp, arr) {
     // Add class "autocomplete-active"
     x[currentFocus].classList.add('autocomplete-active');
   }
-
   // To remove an item as "active" from all autocomplete items
   function removeActive(x) {
     for (let i = 0; i < x.length; i++) {
@@ -86,25 +83,15 @@ function autocomplete(inp, arr) {
     }
   }
 
-  // Close all autocomplete lists in the document
-  function closeAllLists(elmnt) {
-    const x = document.getElementsByClassName('autocomplete-items');
-    for (let i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-
   // Execute a function when someone clicks on the document
   document.addEventListener('click', function(e) {
-    let a = document.getElementById('autocomplete-list');
-    a.innerHTML = "";
+    const a = document.getElementById('autocomplete-list');
+    a.innerHTML = '';
   });
 }
 
-// Array of country names
-var countries = [
+// array of country names
+const countries = [
   'Afghanistan',
   'Albania',
   'Algeria',
@@ -336,5 +323,5 @@ autocomplete(document.getElementById('myInput'), countries);
 // Generator URL from search bar input
 function search() {
   const query = document.getElementById('myInput').value;
-  window.location.href = "/SearchResults.html?q=" + encodeURIComponent(query);
+  window.location.href = '/SearchResults.html?q=' + encodeURIComponent(query);
 }

@@ -24,13 +24,12 @@
         </h1>
 
         <!-- Search Bar -->
-        <form autocomplete="off">
-          <div class="autocomplete" action="/SearchResults.html" method="GET">
+        <form autocomplete="off" onsubmit="search()" action="/SearchResults.html" method="get">
+          <div class="autocomplete">
             <input id="myInput" type="text" name="q" placeholder="Search a country" />
             <div id="autocomplete-list" class="autocomplete-items"></div>
           </div>
-          <!-- <input type="submit" value="Go" /> -->
-          <button type="button" onclick="search()" class="button">Go</button>
+          <button type="submit" class="button">Go</button>
         </form>
       </div>
     </section>
