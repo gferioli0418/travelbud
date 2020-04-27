@@ -4,8 +4,8 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'http://localhost:8080'
   - url: 'https://sps-travelbud.appspot.com'
+  - url: 'http://localhost:8080'
 paths:
   /api/countries:
     get:
