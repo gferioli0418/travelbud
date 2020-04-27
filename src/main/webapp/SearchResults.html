@@ -15,7 +15,7 @@
 
   <body>
     <!-- Navbar -->
-        <div class="topnav">
+    <div class="topnav">
       <a href="/index.html" id="site-name">TravelBud</a>
       <a href="#">Destinations</a>
       <a href="#">About Us</a>
@@ -23,13 +23,12 @@
 
       <!-- Search Bar: -->
       <div class="search-container">
-        <form autocomplete="off">
-          <div class="autocomplete" action="/SearchResults.html" method="GET">
-            <input id="myInput" type="text" name="q" placeholder="Search a country">
-              <div id="autocomplete-list" class="autocomplete-items"></div>
-            </input>
+        <form autocomplete="off" method="get">
+          <div class="autocomplete">
+            <input id="myInput" type="text" name="q" placeholder="Search a country" />
+            <div id="autocomplete-list" class="autocomplete-items"></div>
           </div>
-          <button type="button" onclick="search()" class="button">Go</button>
+          <button type="submit" class="button" onclick="search()">Go</button>
         </form>
       </div>
     </div>
