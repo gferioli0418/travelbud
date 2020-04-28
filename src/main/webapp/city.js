@@ -45,7 +45,7 @@ function displayCityResults(city, country) {
   for (const doTip of country.cultureDos) {
     if (doTip != null) {
       const doItem = document.createElement('li');
-      doItem.appendChild(doTip);
+      doItem.innerText = doTip;
       doElement.appendChild(doItem);
     }
   }
@@ -55,7 +55,7 @@ function displayCityResults(city, country) {
   for (const dontTip of country.cultureDonts) {
     if (dontTip != null) {
       const dontItem = document.createElement('li');
-      dontItem.appendChild(dontTip);
+      dontItem.innerText = dontTip;
       dontElement.appendChild(dontItem);
     }
   }
@@ -63,7 +63,7 @@ function displayCityResults(city, country) {
 
   // add language spoken to "dos" list
   const languageElement = document.createElement('li');
-  languageElement.innerText = ('Learn a few words in ' + country.languages);
+  languageElement.innerText = 'Learn a few words in ' + country.languages;
   document.getElementById('language').appendChild(languageElement);
 
   // add table with events as individual rows

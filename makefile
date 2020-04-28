@@ -9,7 +9,6 @@ node_modules:
 
 pretty: node_modules
 	$(PRETTIER) --write src/main/webapp/*.{html,css}
-	$(ESLINT) --fix src/main/webapp/*.js
 	find src/main/java -iname *.java | xargs $(CLANG_FORMAT) -i
 	find src/main/webapp -iname *.js | xargs $(CLANG_FORMAT) -i
 
