@@ -2,7 +2,7 @@
  * @param {query} id
  */
 async function searching(id) {
-  const cityResponse = await fetch('/api/cities/' + id);
+  const cityResponse = await fetch('/api/cities' + id);
   const city = await cityResponse.json();
   const countryResponse = await fetch('/api/countries/' + city.countryId);
   const country = await countryResponse.json();
@@ -42,7 +42,7 @@ function displayCityResults(city, country) {
 
   // add do's and dont's as two seperate unordered lists
   const doElement = document.createElement('ul');
-  for (const doTip in country.cultureDos) {
+  for (const doTip of country.cultureDos) {
     if (doTip != null) {
       const doItem = document.createElement('li');
       doItem.appendChild(doTip);
@@ -52,7 +52,7 @@ function displayCityResults(city, country) {
   document.getElementById('dos').appendChild(doElement);
 
   const dontElement = document.createElement('ul');
-  for (const dontTip in country.cultureDonts) {
+  for (const dontTip of country.cultureDonts) {
     if (dontTip != null) {
       const dontItem = document.createElement('li');
       dontItem.appendChild(dontTip);
@@ -63,12 +63,12 @@ function displayCityResults(city, country) {
 
   // add language spoken to "dos" list
   const languageElement = document.createElement('li');
-  languageElement.appendChild('Learn a few words in ' + country.languages);
+  languageElement.innerText('Learn a few words in ' + country.languages);
   document.getElementById('language').appendChild(languageElement);
 
   // add table with events as individual rows
   const table = document.getElementById('eventsTable');
-  for (const event in city.events) {
+  for (const event of city.events) {
     if (event != null) {
       const row = table.insertRow(-1);
 
