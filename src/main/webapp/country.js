@@ -4,11 +4,11 @@
 async function searching(id) {
   const countryResponse = await fetch('/api/countries/' + id);
   const country = await countryResponse.json();
-  const citiesResponse = await fetch('/api/cities/');
+  const citiesResponse = await fetch('/api/cities');
   const cities = await citiesResponse.json();
 
   const citiesInCountry = [];
-  for (const city in cities) {
+  for (const city of cities) {
     if (city.countryID === id) {
       citiesInCountry.push(city);
     }
@@ -43,7 +43,7 @@ function displayCityResults(citiesInCountry, country) {
 
   // add do's and dont's as two seperate unordered lists
   const doElement = document.createElement('ul');
-  for (const doTip in country.cultureDos) {
+  for (const doTip of country.cultureDos) {
     if (doTip != null) {
       const doItem = document.createElement('li');
       doItem.appendChild(doTip);
@@ -53,7 +53,7 @@ function displayCityResults(citiesInCountry, country) {
   document.getElementById('dos').appendChild(doElement);
 
   const dontElement = document.createElement('ul');
-  for (const dontTip in country.cultureDonts) {
+  for (const dontTip of country.cultureDonts) {
     if (dontTip != null) {
       const dontItem = document.createElement('li');
       dontItem.appendChild(dontTip);
@@ -64,12 +64,12 @@ function displayCityResults(citiesInCountry, country) {
 
   // add language spoken to "dos" list
   const languageElement = document.createElement('li');
-  languageElement.appendChild('Learn a few words in ' + country.languages);
+  languageElement.innerText = ('Learn a few words in ' + country.languages);
   document.getElementById('language').appendChild(languageElement);
 
   // add table with cities as individual rows
   const citiesTable = document.getElementById('citiesTable');
-  for (const city in citiesInCountry) {
+  for (const city of citiesInCountry) {
     if (city != null) {
       const row = citiesTable.insertRow(-1);
 
@@ -81,7 +81,7 @@ function displayCityResults(citiesInCountry, country) {
 
       // add table with events from various cities as individual rows
       const eventsTable = document.getElementById('eventsTable');
-      for (const event in city.events) {
+      for (const event of city.events) {
         if (event != null) {
           const row = eventsTable.insertRow(-1);
 

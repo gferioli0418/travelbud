@@ -68,7 +68,7 @@ function displayCityResults(city, country) {
 
   // add table with events as individual rows
   const table = document.getElementById('eventsTable');
-  for (const event in city.events) {
+  for (const event of city.events) {
     if (event != null) {
       const row = table.insertRow(-1);
 
