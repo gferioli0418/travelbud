@@ -63,7 +63,7 @@ function displayCityResults(city, country) {
 
   // add language spoken to "dos" list
   const languageElement = document.createElement('li');
-  languageElement.innerText('Learn a few words in ' + country.languages);
+  languageElement.innerText = ('Learn a few words in ' + country.languages);
   document.getElementById('language').appendChild(languageElement);
 
   // add table with events as individual rows
