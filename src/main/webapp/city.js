@@ -45,7 +45,7 @@ function displayCityResults(city, country) {
   for (const doTip in country.cultureDos) {
     if (doTip != null) {
       const doItem = document.createElement('li');
-      doItem.appendChild(doTip);
+      doItem.innerText = doTip;
       doElement.appendChild(doItem);
     }
   }
@@ -55,7 +55,7 @@ function displayCityResults(city, country) {
   for (const dontTip in country.cultureDonts) {
     if (dontTip != null) {
       const dontItem = document.createElement('li');
-      dontItem.appendChild(dontTip);
+      dontItem.innerText = dontTip;
       dontElement.appendChild(dontItem);
     }
   }
