@@ -42,7 +42,7 @@ function displayCityResults(city, country) {
 
   // add do's and dont's as two seperate unordered lists
   const doElement = document.createElement('ul');
-  for (const doTip in country.cultureDos) {
+  for (const doTip of country.cultureDos) {
     if (doTip != null) {
       const doItem = document.createElement('li');
       doItem.innerText = doTip;
@@ -52,7 +52,7 @@ function displayCityResults(city, country) {
   document.getElementById('dos').appendChild(doElement);
 
   const dontElement = document.createElement('ul');
-  for (const dontTip in country.cultureDonts) {
+  for (const dontTip of country.cultureDonts) {
     if (dontTip != null) {
       const dontItem = document.createElement('li');
       dontItem.innerText = dontTip;
@@ -63,7 +63,7 @@ function displayCityResults(city, country) {
 
   // add language spoken to "dos" list
   const languageElement = document.createElement('li');
-  languageElement.appendChild('Learn a few words in ' + country.languages);
+  languageElement.innerText = 'Learn a few words in ' + country.languages;
   document.getElementById('language').appendChild(languageElement);
 
   // add table with events as individual rows
