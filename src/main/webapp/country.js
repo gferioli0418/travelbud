@@ -2,7 +2,7 @@
  * @param {query} id
  */
 async function searching(id) {
-  const countryResponse = await fetch('/api/countries/' + id);
+  const countryResponse = await fetch('/api/countries' + id);
   const country = await countryResponse.json();
   const citiesResponse = await fetch('/api/cities');
   const cities = await citiesResponse.json();
